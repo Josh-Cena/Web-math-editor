@@ -47,22 +47,25 @@ header {
 	border:1px solid #EEEEEE;
 	display:none;
 	width:400px;
-	height:220px;
 	top:28px;
 	margin-top:0px;
 	position:absolute;
 	z-index:1;
 }
 #Panel1{
+	height:260px;
 	left:10px;
 }
 #Panel2{
+	height:170px;
 	left:-90px;
 }
 #Panel3{
+	height:430px;
 	left:-190px;
 }
 #Panel4{
+	height:100px;
 	left:-290px;
 }
 table {
@@ -73,6 +76,12 @@ table tr{
 }
 table td{
 	width: 20px;
+}
+#optab td{
+	width: 40px;
+}
+#structtab td{
+	width: 40px;
 }
 #output {
 	margin: auto;

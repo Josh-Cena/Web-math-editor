@@ -15,29 +15,11 @@
 			<li id="Tab1" onmouseenter="showbox(1)" onmouseleave="hidebox(1)">
 				<a href="#">Symbols</a>
 				<div id="Panel1">
-					<table>
-						<tr>
-							<td v-for="symbol in symbols[0]"><a href="#" onclick="addsymb('\\alpha ',1)">\({{symbol}}\)</a></td>
-						</tr>
-						<tr>
-						<td><a href="#" onclick="addsymb('\\alpha ',1)">\(\alpha\)</a></td>
-						<td><a href="#" onclick="addsymb('\\beta ',1)">\(\beta\)</a></td>
-						<td><a href="#" onclick="addsymb('\\gamma ',1)">\(\gamma\)</a></td>
-						<td><a href="#" onclick="addsymb('\\delta ',1)">\(\delta\)</a></td>
-						<td><a href="#" onclick="addsymb('\\epsilon ',1)">\(\epsilon\)</a></td>
-						<td><a href="#" onclick="addsymb('\\zeta ',1)">\(\zeta\)</a></td>
-						<td><a href="#" onclick="addsymb('\\eta ',1)">\(\eta\)</a></td>
-						<td><a href="#" onclick="addsymb('\\theta ',1)">\(\theta\)</a></td>
-						<td><a href="#" onclick="addsymb('\\iota ',1)">\(\iota\)</a></td>
-						<td><a href="#" onclick="addsymb('\\kappa ',1)">\(\kappa\)</a></td>
-						<td><a href="#" onclick="addsymb('\\lambda ',1)">\(\lambda\)</a></td>
-						<td><a href="#" onclick="addsymb('\\mu ',1)">\(\mu\)</a></td>
-						<td><a href="#" onclick="addsymb('\\nu ',1)">\(\nu\)</a></td>
-						<td><a href="#" onclick="addsymb('\\xi ',1)">\(\xi\)</a></td>
-						<td><a href="#" onclick="addsymb('\\pi ',1)">\(\pi\)</a></td>
-						<td><a href="#" onclick="addsymb('\\rho ',1)">\(\rho\)</a></td>
-						<td><a href="#" onclick="addsymb('\\sigma ',1)">\(\sigma\)</a></td>
-						<td><a href="#" onclick="addsymb('\\tau ',1)">\(\tau\)</a></td>
+					<table id="symboltab">
+						<tr v-for="(row,r) in symbols">
+							<td v-for="(symbol,c) in row">
+								<a href="#" v-on:click="add(1,r,c)" v-bind:title="symbol">\({{symbol}}\)</a>
+							</td>
 						</tr>
 					</table>
 				</div>
@@ -45,16 +27,37 @@
 			<li id="Tab2" onmouseenter="showbox(2)" onmouseleave="hidebox(2)">
 				<a href="#">Operators</a>
 				<div id="Panel2">
+					<table id="optab">
+						<tr v-for="(row,r) in operators">
+							<td v-for="(operator,c) in row">
+								<a href="#" v-on:click="add(2,r,c)" v-bind:title="operator">\({{operator}}\)</a>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</li>
 			<li id="Tab3" onmouseenter="showbox(3)" onmouseleave="hidebox(3)">
 				<a href="#">Structures</a>
 				<div id="Panel3">
+					<table id="structtab">
+						<tr v-for="(row,r) in structures">
+							<td v-for="(structure,c) in row">
+								<a href="#" v-on:click="add(3,r,c)" v-bind:title="structure">\[{{structure}}\]</a>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</li>
 			<li id="Tab4" onmouseenter="showbox(4)" onmouseleave="hidebox(4)">
 				<a href="#">Arrows</a>
 				<div id="Panel4">
+					<table id="arrowtab">
+						<tr v-for="(row,r) in arrows">
+							<td v-for="(arrow,c) in row">
+								<a href="#" v-on:click="add(4,r,c)" v-bind:title="arrow">\({{arrow}}\)</a>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</li>
 		</ul>
