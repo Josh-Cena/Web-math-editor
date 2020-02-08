@@ -9,7 +9,7 @@
 </head>
 <body>
 	<header>\(\LaTeX\) Editor</header>
-	<div id="app">
+	<div id="toolbar">
 	<div id="tabs">
 		<ul>
 			<li id="Tab1" onmouseenter="showbox(1)" onmouseleave="hidebox(1)">
@@ -60,10 +60,32 @@
 					</table>
 				</div>
 			</li>
+			<li id="Tab5" onmouseenter="showbox(5)" onmouseleave="hidebox(5)">
+				<a href="#">Fonts</a>
+				<div id="Panel5">
+					<table id="fonttab">
+						<tr v-for="(row,r) in fonts">
+							<td v-for="(font,c) in row">
+								<a href="#" v-on:click="add(5,r,c)" v-bind:title="font">\({{font}}\)</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</li>
 		</ul>
 	</div>
+	<div id="fontsetting">
+		<label for="sizebox">Font size:</label>
+		<input id="sizebox" v-model="fontsize">
+		<label for="sizebox">pt</label>
+		<label for="colorbox" id="colorlabel">Color:</label>
+		<input id="colorbox" type="color" value="#FF0000" v-model="color">
+		<button onclick="insertSymb('\\color{'+document.getElementById('colorbox').value+'}{text}',0,false)">Insert color</button>
 	</div>
-	<textarea id="input" placeholder="Input TeX formula here." v-model="formula"></textarea>
-	<div id="output">$${}$$</div>
+	</div>
+	<div id="text">
+		<textarea id="input" placeholder="Input TeX formula here." v-model="formula"></textarea>
+		<div id="output">$${}$$</div>
+	</div>
 	<script type="text/javascript" src="LaTeX editor.js"></script>
 </body>

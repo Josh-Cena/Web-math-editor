@@ -6,24 +6,54 @@ var renderinput = function(){
 	});
 };
 function showbox(num){
-	document.getElementById("Panel"+num).style.display = "block";
+	document.getElementById("Panel" + num).style.display = "block";
 }
 function hidebox(num){
-	document.getElementById("Panel"+num).style.display = "none";
+	document.getElementById("Panel" + num).style.display = "none";
 }
-function addsymb(text,num){
-	hidebox(num);
+function insertSymb(text,num,mask){
+	if(num>0)
+		hidebox(num);
 	if (input.selectionStart || input.selectionStart == '0') {
 		var startPos = input.selectionStart;
 		var endPos = input.selectionEnd;
-		var restoreTop = input.scrollTop;
-		input.value = input.value.substring(0, startPos) + text + input.value.substring(endPos, input.value.length);	 
-		if (restoreTop > 0) {
-			input.scrollTop = restoreTop;
+		var scrollPos = input.scrollTop;
+		var original = input.value;
+		var before = original.substring(0, startPos);
+		var after = original.substring(endPos, original.length);
+		var selected = original.substring(startPos, endPos);
+		if(mask || startPos == endPos){
+			input.value = before + text + after;
+			input.selectionStart = startPos + text.length;
+			input.selectionEnd = startPos + text.length;
+		}else{
+			switch(num){
+			case 0:
+				input.value = before + text.substring(0, text.length - 5) + selected + "}" + after;
+				break;
+			case 2: 
+				input.value = before + text.substring(0, text.length - 1) + "{(" + selected + ")}" + after;
+				break;
+			case 3:
+				if(text.indexOf("x") > 0 && text.indexOf("matrix") < 0){
+					if(text.indexOf("xyz")>0){
+						input.value = before + text.substring(0, text.indexOf("xyz")) +
+							selected + text.substring(text.indexOf("xyz") + 3) + after;
+					}else {
+						input.value = before + text.substring(0, text.indexOf("x")) +
+							selected + text.substring(text.indexOf("x") + 1) + after;
+					}
+				}
+				break;
+			case 5:
+				input.value = before + text.substring(0, text.indexOf("{")) + "{" + selected + "}" + after;
+				break;
+			}
 		}
 		input.focus();
-		input.selectionStart = startPos + text.length;
-		input.selectionEnd = startPos + text.length;
+		if (scrollPos > 0) {
+			input.scrollTop = scrollPos;
+		}
 	} else {
 		input.value += text;
 		input.focus();
@@ -31,9 +61,10 @@ function addsymb(text,num){
 	renderinput();
 }
 var vm = new Vue({
-	el:"#app",
+	el:"#toolbar",
 	data:{
-		name:"latex",
+		fontsize:20,
+		color:"#FF0000",
 		symbols:[
 			["\\alpha ","\\beta ","\\gamma ","\\delta ","\\epsilon ",
 			 "\\zeta ","\\eta ","\\theta ","\\iota ","\\kappa ",
@@ -80,20 +111,20 @@ var vm = new Vue({
 			 "{x}^{a}","{x}_{a}^{b}","\\left|x\\right|",
 			 "\\left(x\\right)","\\left[x\\right]","\\left\\{x\\right\\}"],
 			["\\lfloor x\\rfloor ","\\lceil x\\rceil","\\left\\| x\\right\\|",
-			 "\\left< x\\right>","\\acute{a}","\\grave{a}",
-			 "\\ddot{a}","\\tilde{a}","\\bar{a}"],
-			["\\breve{a}","\\check{a}","\\hat{a}",
-			 "\\vec{a}","\\dot{a}","\\widetilde{a}",
-			 "\\widehat{a}","\\overbrace{x,y}^a","\\underbrace{x,y}_a",],
-			["\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}","\\frac{a}{b}","\\left({a\\atop b}\\right)",
-			 "\\overline{abc}","\\overleftarrow{abc}","\\overrightarrow{abc}",
-			 "\\overleftrightarrow{abc}","\\underline{abc}","\\lim_{a\\to b}"],
+			 "\\left< x\\right>","\\acute{x}","\\grave{x}",
+			 "\\ddot{x}","\\tilde{x}","\\bar{x}"],
+			["\\breve{x}","\\check{x}","\\hat{x}",
+			 "\\vec{x}","\\dot{x}","\\widetilde{x}",
+			 "\\widehat{x}","\\overbrace{xyz}^a","\\underbrace{xyz}_a",],
+			["\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}","\\frac{x}{y}","\\left({a\\atop b}\\right)",
+			 "\\overline{xyz}","\\overleftarrow{xyz}","\\overrightarrow{xyz}",
+			 "\\overleftrightarrow{xyz}","\\underline{xyz}","\\lim_{a\\to b}"],
 			["\\sum_{a}^{b}","\\prod_{a}^{b}","\\coprod_{a}^{b}",
 			 "\\int_{a}^{b}","\\iint_{a}^{b}","\\iiint_{a}^{b}",
 			 "\\oint_{a}^{b}","\\bigcup_{a}^{b}","\\bigcap_{a}^{b}"],
 			["\\biguplus_{a}^{b}","\\bigsqcup_{a}^{b}","\\bigvee_{a}^{b}",
 			 "\\bigwedge_{a}^{b}","\\bigodot_{a}^{b}","\\bigoplus_{a}^{b}",
-			 "\\bigotimes_{a}^{b}","\\overset{a}b","\\underset{a}b"]
+			 "\\bigotimes_{a}^{b}","\\overset{a}{x}","\\underset{a}{x}"]
 		],
 		arrows:[
 			["\\gets ","\\to ","\\Leftarrow ","\\Rightarrow ","\\leftrightarrow ",
@@ -103,25 +134,34 @@ var vm = new Vue({
 			 "\\rightharpoondown ","\\rightleftharpoons ","\\nearrow ","\\searrow ","\\swarrow ",
 			 "\\nwarrow ","\\uparrow ","\\downarrow ","\\Uparrow "],
 			["\\Downarrow ","\\updownarrow ","\\Updownarrow ","\\stackrel{\\triangle}{\\longrightarrow}"]
+		],
+		fonts:[
+			["\\mathrm{Roman}","\\mathbf{Bold font}","\\mathtt{Typewriter}"],
+			["\\mathsf{Sans serif}","\\mathscr{Script}","\\mathcal{CALIGRAPHY}"],
+			["\\mathbb{BLACKBOARD}","\\mathfrak{FRAKTUR}"]
 		]
 	},
 	methods:{
 		add:function(set,row,col){
-			if(set==1)
-				addsymb(this.symbols[row][col],1);
-			else if(set==2)
-				addsymb(this.operators[row][col],2);
-			else if(set==3)
-				addsymb(this.structures[row][col],3);
-			else if(set==4)
-				addsymb(this.arrows[row][col],4);
+			switch(set){
+				case 1:insertSymb(this.symbols[row][col],1,true);break;
+				case 2:insertSymb(this.operators[row][col],2,false);break;
+				case 3:insertSymb(this.structures[row][col],3,false);break;
+				case 4:insertSymb(this.arrows[row][col],4,true);break;
+				case 5:insertSymb(this.fonts[row][col],5,false);break;
+			}
+		}
+	},
+	watch:{
+		fontsize(newVal){
+			if(newVal>=10){
+				//document.getElementById("output").getElementsByTagName("div")[0]
+				//.style.setProperty("font-size",newVal + "px","important");
+				document.getElementById("output").getElementsByTagName("div")[0].style.cssText = 
+				"display: table-cell;vertical-align: middle;font-size:" + newVal + "px !important";
+				renderinput();
+			}
 		}
 	}
 });
-var resize = function(){
-	document.body.style.height = window.innerHeight + 'px';
-};
-resize();
-window.addEventListener('resize', resize, false);
-window.addEventListener('DOMContentLoaded', renderinput, false);
 input.addEventListener('input', renderinput, false);

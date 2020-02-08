@@ -12,10 +12,13 @@ header {
 	font-size: 28px;
 	font-weight: 400;
 }
+#toolbar{
+	width:90px;
+}
 #tabs{
-	left:50px;
-	width:400px;
-	height:30px;
+	width:90px;
+	height:100px;
+	margin:10px 0px 0px 0px;
 }
 #tabs ul{
 	padding:0;
@@ -23,16 +26,16 @@ header {
 }
 #tabs ul li{
 	list-style:none;
-	float:left;
+	float:top;
 	text-decoration:none;
 	display:block; 
 	width:80px;
 	padding:5px;
-	margin:0px 10px 0px 0px;
+	margin:0px 0px 8px 0px;
 	position:relative;
 	background-color:#EEEEEE;
 	border-color:#EEEEEE;
-	border-radius:7px 7px 0 0;
+	border-radius:0 7px 7px 0;
 }
 #tabs ul li a{
 	text-decoration:none;
@@ -47,26 +50,12 @@ header {
 	border:1px solid #EEEEEE;
 	display:none;
 	width:400px;
-	top:28px;
+	left:90px;
+	top:0px;
 	margin-top:0px;
 	position:absolute;
 	z-index:1;
-}
-#Panel1{
-	height:260px;
-	left:10px;
-}
-#Panel2{
-	height:170px;
-	left:-90px;
-}
-#Panel3{
-	height:430px;
-	left:-190px;
-}
-#Panel4{
-	height:100px;
-	left:-290px;
+	border-radius:7px 7px 7px 7px;
 }
 table {
 	table-layout:fixed;
@@ -83,6 +72,32 @@ table td{
 #structtab td{
 	width: 40px;
 }
+#fonttab td{
+	width: 120px;
+}
+#fontsetting{
+	margin-top:100px;
+}
+#fontsetting>input{
+	margin-left:3px;
+	width:40px;
+}
+#fontsetting>input[type="color"]{
+	margin-top:40px;
+	margin-left:3px;
+	width:80px;
+}
+#colorlabel{
+	top:317px;
+	left:20px;
+	position:absolute;
+}
+#text{
+	position:absolute;
+	top: 70px;
+	left:100px;
+	width:90%;
+}
 #output {
 	margin: auto;
 	height: 50%;
@@ -94,8 +109,7 @@ table td{
 	vertical-align: middle;
 }
 #input {
-	top: 90px;
-	width: 80%;
+	width: 90%;
 	box-sizing: border-box;
 	background: #ffffff;
 	padding: 1em;
@@ -110,5 +124,4 @@ body > a {
 }
 .MathJax_Display {
 	overflow-x: auto;
-	overflow-y: hidden;
 }
