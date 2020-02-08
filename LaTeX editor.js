@@ -180,6 +180,11 @@ var vm2 = new Vue({
 			{name:"Simultaneous linear equations",formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
 		]
 	},
+	computed:{
+		storage: function(){
+			return localStorage.getItem("webmathdata");
+		}
+	},
 	methods:{
 		importformula:function(index){
 			input.value = this.formulas[index].formula;
@@ -192,6 +197,16 @@ var vm2 = new Vue({
 			if(input.value.length > 0){
 				this.formulas.push({name:"User defined",formula:input.value});
 			}
+		}
+	},
+	created: function(){
+		var history=localStorage.getItem("webmathdata");
+		if(history!=null)
+			this.formulas=JSON.parse(history);
+	},
+	watch:{
+		formulas(newVal,oldVal){
+			localStorage.setItem("webmathdata", JSON.stringify(newVal));
 		}
 	}
 })
