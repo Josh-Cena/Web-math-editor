@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	text-align: center;
-	background: #ffffff;
+	background: #E9E9E9;
 }
 header {
     height: 50px;
@@ -11,6 +11,11 @@ header {
 	line-height: 50px;
 	font-size: 28px;
 	font-weight: 400;
+}
+header embed{
+	position:absolute;
+	left:30px;
+	top:5px;
 }
 #toolbar{
 	width:90px;
@@ -31,10 +36,11 @@ header {
 	display:block; 
 	width:80px;
 	padding:5px;
-	margin:0px 0px 8px 0px;
+	margin:0px 0px 6px 0px;
 	position:relative;
-	background-color:#EEEEEE;
-	border-color:#EEEEEE;
+	background-color:#FFFFFF;
+	border: 1px solid steelblue;
+	box-shadow: 0 3px 0 steelblue;
 	border-radius:0 7px 7px 0;
 }
 #tabs ul li a{
@@ -46,8 +52,9 @@ header {
 	color:#000000;
 }
 #tabs ul li >div {
-	background-color:#EEEEEE;
-	border:1px solid #EEEEEE;
+	background-color:#FFFFFF;
+	border: 1px solid steelblue;
+	box-shadow: 0 3px 0 steelblue;
 	display:none;
 	width:400px;
 	left:90px;
@@ -56,6 +63,7 @@ header {
 	position:absolute;
 	z-index:1;
 	border-radius:7px 7px 7px 7px;
+	box-shadow: 10px 10px 10px 5px rgba(204,204,204,0.3);
 }
 table {
 	table-layout:fixed;
@@ -95,8 +103,8 @@ table td{
 #text{
 	position:absolute;
 	top: 70px;
-	left:100px;
-	width:90%;
+	left: 95px;
+	width: 72%;
 }
 #output {
 	margin: auto;
@@ -116,8 +124,37 @@ table td{
 	margin: 0;
 	font-size:20px;
 }
-body > a {
-	display: none;
+#history{
+	width: 310px;
+	height:100%;
+	right: 0px;
+	top: 50px;
+	position: absolute;
+	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
+	background-color: #EEEEEE;
+	z-index: 1;
+}
+#history button{
+	width: 250px;
+	height: 40px;
+	margin-top: 30px;
+	font-size: 18px;
+	color: black;
+	background-color: white;
+	border: 3px solid steelblue;
+	border-radius:7px 7px 7px 7px;
+	cursor: pointer;
+}
+#history button: active{
+	width: 250px;
+	height: 40px;
+	margin-top: 30px;
+	font-size: 18px;
+	color: black;
+	border: 3px solid steelblue;
+	border-radius:7px 7px 7px 7px;
+	background-color: #000000;
+	opacity: 0.5;
 }
 .MathJax {
 	outline: 0;

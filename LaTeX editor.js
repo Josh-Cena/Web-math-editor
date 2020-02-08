@@ -32,7 +32,7 @@ function insertSymb(text,num,mask){
 				input.value = before + text.substring(0, text.length - 5) + selected + "}" + after;
 				break;
 			case 2: 
-				input.value = before + text.substring(0, text.length - 1) + "{(" + selected + ")}" + after;
+				input.value = before + text.substring(0, text.length - 1) + "{\\left(" + selected + "\\right)}" + after;
 				break;
 			case 3:
 				if(text.indexOf("x") > 0 && text.indexOf("matrix") < 0){
@@ -49,6 +49,8 @@ function insertSymb(text,num,mask){
 				input.value = before + text.substring(0, text.indexOf("{")) + "{" + selected + "}" + after;
 				break;
 			}
+			input.selectionStart = startPos;
+			input.selectionEnd = startPos;
 		}
 		input.focus();
 		if (scrollPos > 0) {
@@ -64,7 +66,6 @@ var vm = new Vue({
 	el:"#toolbar",
 	data:{
 		fontsize:20,
-		color:"#FF0000",
 		symbols:[
 			["\\alpha ","\\beta ","\\gamma ","\\delta ","\\epsilon ",
 			 "\\zeta ","\\eta ","\\theta ","\\iota ","\\kappa ",
@@ -165,3 +166,12 @@ var vm = new Vue({
 	}
 });
 input.addEventListener('input', renderinput, false);
+window.onresize = function(){
+	if(window.innerWidth <= 800){
+		document.getElementById("text").style.width = window.innerWidth - 120 + "px";
+		document.getElementById("history").style.display = "none";
+	}else{
+		document.getElementById("text").style.width = window.innerWidth - 430 + "px";
+		document.getElementById("history").style.display = "block";
+	}
+}
