@@ -43,6 +43,12 @@ function insertSymb(text,num,mask){
 						input.value = before + text.substring(0, text.indexOf("x")) +
 							selected + text.substring(text.indexOf("x") + 1) + after;
 					}
+				}else{
+					if(text.substring(text.length-2)=="b}"){
+						input.value = before + text + selected + after;
+					}else{
+						input.value = before + text + after;
+					}
 				}
 				break;
 			case 5:
@@ -117,7 +123,7 @@ var vm = new Vue({
 			["\\breve{x}","\\check{x}","\\hat{x}",
 			 "\\vec{x}","\\dot{x}","\\widetilde{x}",
 			 "\\widehat{x}","\\overbrace{xyz}^a","\\underbrace{xyz}_a",],
-			["\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}","\\frac{x}{y}","\\left({a\\atop b}\\right)",
+			["\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}","\\frac{x}{y}","\\left({x\\atop y}\\right)",
 			 "\\overline{xyz}","\\overleftarrow{xyz}","\\overrightarrow{xyz}",
 			 "\\overleftrightarrow{xyz}","\\underline{xyz}","\\lim_{a\\to b}"],
 			["\\sum_{a}^{b}","\\prod_{a}^{b}","\\coprod_{a}^{b}",
@@ -165,6 +171,30 @@ var vm = new Vue({
 		}
 	}
 });
+var vm2 = new Vue({
+	el:"#history",
+	data:{
+		formulas:[
+			{name:"Gauss-Bonnet formula",formula:"\\oint_C\\kappa_g\\,\\mathrm{d}s+\\iint_DK\\,\\mathrm{d}\\sigma=2\\pi-\\sum_{i=1}^n\\alpha_i"},
+			{name:"Fourier integral",formula:"\\lim_{N\\to+\\infty}\\frac1{2\\pi}\\int_{-N}^{N}\\hat{f}(\\lambda)\\,\\mathrm{e}^{\\mathrm{i}\\lambda x}\\,\\mathrm{d}\\lambda=f(x)"},
+			{name:"Simultaneous linear equations",formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
+		]
+	},
+	methods:{
+		importformula:function(index){
+			input.value = this.formulas[index].formula;
+			renderinput();
+		},
+		removeformula:function(index){
+			this.formulas.splice(index,1);
+		},
+		pushformula:function(){
+			if(input.value.length > 0){
+				this.formulas.push({name:"User defined",formula:input.value});
+			}
+		}
+	}
+})
 input.addEventListener('input', renderinput, false);
 window.onresize = function(){
 	if(window.innerWidth <= 800){

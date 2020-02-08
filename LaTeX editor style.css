@@ -36,7 +36,7 @@ header embed{
 	display:block; 
 	width:80px;
 	padding:5px;
-	margin:0px 0px 6px 0px;
+	margin:0px 0px 8px 0px;
 	position:relative;
 	background-color:#FFFFFF;
 	border: 1px solid steelblue;
@@ -58,7 +58,7 @@ header embed{
 	display:none;
 	width:400px;
 	left:90px;
-	top:0px;
+	top:-1px;
 	margin-top:0px;
 	position:absolute;
 	z-index:1;
@@ -133,6 +133,39 @@ table td{
 	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
 	background-color: #EEEEEE;
 	z-index: 1;
+}
+#history ul{
+	float:left;
+	position:relative;
+	left:-30px;
+	width:290px;
+}
+#history li{
+	list-style:none;
+	width:290px;
+	border:1px solid darkgray;
+}
+.hislist-item {
+	transition: all 1.5s;
+}
+.hislist-enter, .hislist-leave-to{
+	opacity: 0;
+	transform: translateY(60px);
+}
+.hislist-leave-active {
+	position: absolute;
+}
+#history li p{
+	cursor:pointer;
+}
+#history li a{
+	position: absolute;
+	right: 4px;
+	display: block;
+	font-size: 18px;
+	line-height: 10px;
+	color: darkgray;
+	cursor: pointer;
 }
 #history button{
 	width: 250px;
