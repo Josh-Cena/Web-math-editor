@@ -174,6 +174,7 @@ var vm = new Vue({
 var vm2 = new Vue({
 	el:"#history",
 	data:{
+		seen:true,
 		formulas:[
 			{name:"Gauss-Bonnet formula",formula:"\\oint_C\\kappa_g\\,\\mathrm{d}s+\\iint_DK\\,\\mathrm{d}\\sigma=2\\pi-\\sum_{i=1}^n\\alpha_i"},
 			{name:"Fourier integral",formula:"\\lim_{N\\to+\\infty}\\frac1{2\\pi}\\int_{-N}^{N}\\hat{f}(\\lambda)\\,\\mathrm{e}^{\\mathrm{i}\\lambda x}\\,\\mathrm{d}\\lambda=f(x)"},
@@ -181,6 +182,12 @@ var vm2 = new Vue({
 		]
 	},
 	computed:{
+		icon:function(){
+			if(this.seen)
+				return "▶";
+			else
+				return "◀";
+		},
 		storage: function(){
 			return localStorage.getItem("webmathdata");
 		}
@@ -197,6 +204,16 @@ var vm2 = new Vue({
 			if(input.value.length > 0){
 				this.formulas.push({name:"User defined",formula:input.value});
 			}
+		},
+		hide:function(){
+			if(this.seen){
+				document.getElementById("text").style.width = window.innerWidth - 120 + "px";
+				document.getElementById("history").style.marginRight = "-310px";
+			}else{
+				document.getElementById("text").style.width = window.innerWidth - 430 + "px";
+				document.getElementById("history").style.marginRight = "0px";
+			}
+			this.seen = !this.seen;
 		}
 	},
 	created: function(){
@@ -214,9 +231,11 @@ input.addEventListener('input', renderinput, false);
 window.onresize = function(){
 	if(window.innerWidth <= 800){
 		document.getElementById("text").style.width = window.innerWidth - 120 + "px";
-		document.getElementById("history").style.display = "none";
+		document.getElementById("history").style.marginRight = "-310px";
+		vm2.seen = false;
 	}else{
 		document.getElementById("text").style.width = window.innerWidth - 430 + "px";
-		document.getElementById("history").style.display = "block";
+		document.getElementById("history").style.marginRight = "0px";
+		vm2.seen = true;
 	}
 }

@@ -105,6 +105,7 @@ table td{
 	top: 70px;
 	left: 95px;
 	width: 72%;
+	transition: width 0.5s;
 }
 #output {
 	margin: auto;
@@ -132,7 +133,7 @@ table td{
 	position: absolute;
 	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
 	background-color: #EEEEEE;
-	z-index: 1;
+	transition: margin-right 0.5s;
 }
 #history ul{
 	float:left;
@@ -143,7 +144,9 @@ table td{
 #history li{
 	list-style:none;
 	width:290px;
+	background-color: white;
 	border:1px solid darkgray;
+	margin-bottom:7px;
 }
 .hislist-item {
 	transition: all 1.5s;
@@ -167,7 +170,7 @@ table td{
 	color: darkgray;
 	cursor: pointer;
 }
-#history button{
+#pushBtn{
 	width: 250px;
 	height: 40px;
 	margin-top: 30px;
@@ -178,16 +181,17 @@ table td{
 	border-radius:7px 7px 7px 7px;
 	cursor: pointer;
 }
-#history button: active{
-	width: 250px;
-	height: 40px;
-	margin-top: 30px;
-	font-size: 18px;
-	color: black;
-	border: 3px solid steelblue;
-	border-radius:7px 7px 7px 7px;
-	background-color: #000000;
-	opacity: 0.5;
+#foldBtn {
+	position: absolute;
+	top: 40%;
+	right: 308px;
+	height: 75px;
+	border:0px;
+	background-color: #EAEAEA;
+	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
+	color: darkslategray;
+	cursor: pointer;
+	z-index:1;
 }
 .MathJax {
 	outline: 0;
