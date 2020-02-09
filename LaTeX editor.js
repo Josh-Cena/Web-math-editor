@@ -198,28 +198,45 @@ var vm2 = new Vue({
 			renderinput();
 		},
 		removeformula:function(index){
-			this.formulas.splice(index,1);
+			var r = confirm("Do you really want to delete this formula? \nThis action can NOT be recovered");
+			if (r == true){
+				this.formulas.splice(index,1);
+				setTimeout(function(){
+					var math = MathJax.Hub.getAllJax("history");
+					for(var i = index; i < math.length; i++){
+						MathJax.Hub.Queue(["Text",math[i],this.formulas[i]]);
+					}
+				},2000);
+			}else{
+				return;
+			}
 		},
 		pushformula:function(){
 			if(input.value.length > 0){
-				this.formulas.push({name:"User defined",formula:input.value});
+				var fname = prompt("Please enter a name for this formula");
+				if (fname != null && fname != "") {
+				    this.formulas.push({name:fname,formula:input.value});
+					setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,"history"])},100);
+				}else{
+					return;
+				}
 			}
 		},
 		hide:function(){
 			if(this.seen){
 				document.getElementById("text").style.width = window.innerWidth - 120 + "px";
-				document.getElementById("history").style.marginRight = "-310px";
+				document.getElementById("history").style.right = "-310px";
 			}else{
 				document.getElementById("text").style.width = window.innerWidth - 430 + "px";
-				document.getElementById("history").style.marginRight = "0px";
+				document.getElementById("history").style.right = "0px";
 			}
 			this.seen = !this.seen;
 		}
 	},
 	created: function(){
-		var history=localStorage.getItem("webmathdata");
-		if(history!=null)
-			this.formulas=JSON.parse(history);
+		var history = localStorage.getItem("webmathdata");
+		if(history != null)
+			this.formulas = JSON.parse(history);
 	},
 	watch:{
 		formulas(newVal,oldVal){
@@ -231,11 +248,11 @@ input.addEventListener('input', renderinput, false);
 window.onresize = function(){
 	if(window.innerWidth <= 800){
 		document.getElementById("text").style.width = window.innerWidth - 120 + "px";
-		document.getElementById("history").style.marginRight = "-310px";
+		document.getElementById("history").style.right = "-310px";
 		vm2.seen = false;
 	}else{
 		document.getElementById("text").style.width = window.innerWidth - 430 + "px";
-		document.getElementById("history").style.marginRight = "0px";
+		document.getElementById("history").style.right = "0px";
 		vm2.seen = true;
 	}
 }

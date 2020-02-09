@@ -107,16 +107,6 @@ table td{
 	width: 72%;
 	transition: width 0.5s;
 }
-#output {
-	margin: auto;
-	height: 50%;
-	box-sizing: border-box;
-	display: table;
-}
-#output > div {
-	display: table-cell;
-	vertical-align: middle;
-}
 #input {
 	width: 90%;
 	box-sizing: border-box;
@@ -124,6 +114,17 @@ table td{
 	padding: 1em;
 	margin: 0;
 	font-size:20px;
+}
+#output {
+	margin:auto;
+	box-sizing: border-box;
+	display: table;
+	margin-top:40px;
+	width:90%;
+}
+#output > div {
+	display: table-cell;
+	vertical-align: middle;
 }
 #history{
 	width: 310px;
@@ -133,7 +134,7 @@ table td{
 	position: absolute;
 	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
 	background-color: #EEEEEE;
-	transition: margin-right 0.5s;
+	transition: right 0.5s;
 }
 #history ul{
 	float:left;
@@ -192,6 +193,7 @@ table td{
 	color: darkslategray;
 	cursor: pointer;
 	z-index:1;
+	outline:none;
 }
 .MathJax {
 	outline: 0;

@@ -90,7 +90,7 @@
 </div>
 <div id="history">
 	<button id="foldBtn" v-on:click="hide()">{{icon}}</button>
-	<transition-group name="hislist" tag="ul">
+	<transition-group id="hislist" name="hislist" tag="ul">
 		<li v-for="(formula,index) in formulas" v-bind:id="index" v-bind:key="index" class="hislist-item">
 			<a v-on:click="removeformula(index)">×</a>
 			<p v-on:click="importformula(index)" v-bind:title="formula.name">$${{formula.formula}}$$</p>
