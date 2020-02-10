@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	text-align: center;
 	background: #E9E9E9;
+	font-family: "helvetica", "arial", sans-serif;
 }
 header {
     height: 50px;
@@ -12,10 +13,70 @@ header {
 	font-size: 28px;
 	font-weight: 400;
 }
-header embed{
+.closeBtn{
+	position: absolute;
+	display: block;
+	font-size: 18px;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	line-height: 10px;
+	color: darkgray;
+	cursor: pointer;
+	background-color: white;
+}
+#HelpIcon{
 	position:absolute;
 	left:30px;
 	top:5px;
+	cursor: pointer;
+}
+#Helppanel{
+	margin:auto;
+	left:0;right:0;top:0;bottom:0;
+	width:650px;
+	height:400px;
+	position:absolute;
+	background-color: white;
+	visibility:hidden;
+	opacity:0;
+	transition: all 0.3s linear;
+	border: 2px solid steelblue;
+	border-radius: 15px 15px 15px 15px;
+}
+#helpText{
+	height:400px;
+	overflow-x: scroll;
+}
+#Helppanel p{
+	text-align:justify;
+	margin-left:20px;
+	margin-right:20px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+#Helppanel ul{
+	text-align:justify;
+	margin-left:20px;
+	margin-right:40px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+#Helppanel a:not(.closeBtn):active{
+	font-style: none;
+	color:black;
+}
+#Helppanel a:not(.closeBtn):visited{
+	font-style: none;
+	color:black;
+}
+#Helppanel a:not(.closeBtn):hover{
+	font-style: none;
+	color:red;
+}
+#closeHelp{
+	z-index:1;
+	right: 14px;
+	top: 10px;
 }
 #toolbar{
 	width:90px;
@@ -126,7 +187,7 @@ table td{
 	display: table-cell;
 	vertical-align: middle;
 }
-#history{
+#historypanel{
 	width: 310px;
 	height:100%;
 	right: 0px;
@@ -135,14 +196,16 @@ table td{
 	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
 	background-color: #EEEEEE;
 	transition: right 0.5s;
+	overflow-x:visible;
+	overflow-y:visible;
 }
-#history ul{
+#historypanel ul{
 	float:left;
 	position:relative;
 	left:-30px;
 	width:290px;
 }
-#history li{
+#historypanel ul li{
 	list-style:none;
 	width:290px;
 	background-color: white;
@@ -159,22 +222,17 @@ table td{
 .hislist-leave-active {
 	position: absolute;
 }
-#history li p{
+#historypanel ul li p{
 	cursor:pointer;
 }
-#history li a{
-	position: absolute;
+#historypanel ul li a{
 	right: 4px;
-	display: block;
-	font-size: 18px;
-	line-height: 10px;
-	color: darkgray;
-	cursor: pointer;
 }
 #pushBtn{
 	width: 250px;
 	height: 40px;
 	margin-top: 30px;
+	margin-bottom: 50px;
 	font-size: 18px;
 	color: black;
 	background-color: white;
@@ -183,10 +241,10 @@ table td{
 	cursor: pointer;
 }
 #foldBtn {
-	position: absolute;
 	top: 40%;
-	right: 308px;
 	height: 75px;
+	right: 308px;
+	position: absolute;
 	border:0px;
 	background-color: #EAEAEA;
 	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
@@ -194,10 +252,8 @@ table td{
 	cursor: pointer;
 	z-index:1;
 	outline:none;
+	transition: right 0.5s;
 }
 .MathJax {
 	outline: 0;
-}
-.MathJax_Display {
-	overflow-x: auto;
 }

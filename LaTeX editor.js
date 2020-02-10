@@ -68,6 +68,28 @@ function insertSymb(text,num,mask){
 	}
 	renderinput();
 }
+function foldHistory(){
+	document.getElementById("text").style.width = window.innerWidth - 120 + "px";
+	document.getElementById("foldBtn").style.right = "-2px";
+	document.getElementById("historypanel").style.right = "-310px";
+	setTimeout(function(){document.getElementById("historypanel").style.display = "none";},500);
+}
+function expandHistory(){
+	document.getElementById("text").style.width = window.innerWidth - 430 + "px";
+	document.getElementById("historypanel").style.display = "block";
+	setTimeout(function(){
+		document.getElementById("foldBtn").style.right = "308px";
+		document.getElementById("historypanel").style.right = "0px";
+	},3);
+}
+function showHelp(){
+	document.getElementById("Helppanel").style.visibility = "visible";
+	document.getElementById("Helppanel").style.opacity = 1;
+}
+function hideHelp(){
+	document.getElementById("Helppanel").style.visibility = "hidden";
+	document.getElementById("Helppanel").style.opacity = 0;
+}
 var vm = new Vue({
 	el:"#toolbar",
 	data:{
@@ -223,13 +245,10 @@ var vm2 = new Vue({
 			}
 		},
 		hide:function(){
-			if(this.seen){
-				document.getElementById("text").style.width = window.innerWidth - 120 + "px";
-				document.getElementById("history").style.right = "-310px";
-			}else{
-				document.getElementById("text").style.width = window.innerWidth - 430 + "px";
-				document.getElementById("history").style.right = "0px";
-			}
+			if(this.seen)
+				foldHistory();
+			else
+				expandHistory();
 			this.seen = !this.seen;
 		}
 	},
@@ -246,13 +265,9 @@ var vm2 = new Vue({
 })
 input.addEventListener('input', renderinput, false);
 window.onresize = function(){
-	if(window.innerWidth <= 800){
-		document.getElementById("text").style.width = window.innerWidth - 120 + "px";
-		document.getElementById("history").style.right = "-310px";
-		vm2.seen = false;
-	}else{
-		document.getElementById("text").style.width = window.innerWidth - 430 + "px";
-		document.getElementById("history").style.right = "0px";
-		vm2.seen = true;
-	}
+	if(window.innerWidth <= 800)
+		foldHistory();
+	else
+		expandHistory();
+	vm2.seen = !vm2.seen;
 }
