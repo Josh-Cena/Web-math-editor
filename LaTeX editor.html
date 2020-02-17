@@ -74,7 +74,7 @@
 						<table id="optab">
 							<tr v-for="(row,r) in operators">
 								<td v-for="(operator,c) in row">
-									<a href="#" v-on:click="add(2,r,c)" v-bind:title="operator">\({{operator}}\)</a>
+									<a href="#" v-on:click="add(2,r,c)" v-bind:title="operator">\({{operator.disp}}\)</a>
 								</td>
 							</tr>
 						</table>
@@ -86,7 +86,7 @@
 						<table id="structtab">
 							<tr v-for="(row,r) in structures">
 								<td v-for="(structure,c) in row">
-									<a href="#" v-on:click="add(3,r,c)" v-bind:title="structure">\[{{structure}}\]</a>
+									<a href="#" v-on:click="add(3,r,c)" v-bind:title="structure">\[{{typeof structure == "string" ? structure : structure.disp}}\]</a>
 								</td>
 							</tr>
 						</table>
@@ -98,7 +98,7 @@
 						<table id="arrowtab">
 							<tr v-for="(row,r) in arrows">
 								<td v-for="(arrow,c) in row">
-									<a href="#" v-on:click="add(4,r,c)" v-bind:title="arrow">\({{arrow}}\)</a>
+									<a href="#" v-on:click="add(4,r,c)" v-bind:title="arrow">\({{typeof arrow == "string" ? arrow : arrow.disp}}\)</a>
 								</td>
 							</tr>
 						</table>
@@ -110,7 +110,7 @@
 						<table id="fonttab">
 							<tr v-for="(row,r) in fonts">
 								<td v-for="(font,c) in row">
-									<a href="#" v-on:click="add(5,r,c)" v-bind:title="font">\({{font}}\)</a>
+									<a href="#" v-on:click="add(5,r,c)" v-bind:title="font">\({{font.disp}}\)</a>
 								</td>
 							</tr>
 						</table>
@@ -124,7 +124,8 @@
 			<label for="sizebox">pt</label>
 			<label for="colorbox" id="colorlabel">Color:</label>
 			<input id="colorbox" type="color" value="#FF0000" v-model="color">
-			<button onclick="insertSymb('\\color{'+document.getElementById('colorbox').value+'}{text}',0,false)">Insert color</button>
+			<button onclick="insertSymb({disp:'\\color{'+document.getElementById('colorbox').value+'}{text}',
+							left:'\\color{'+document.getElementById('colorbox').value+'}{',right:'}'},0)">Insert color</button>
 		</div>
 	</div>
 	<div id="text">

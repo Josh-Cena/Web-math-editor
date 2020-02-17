@@ -11,8 +11,8 @@ function showbox(num){
 function hidebox(num){
 	document.getElementById("Panel" + num).style.display = "none";
 }
-function insertSymb(text,num,mask){
-	if(num>0)
+function insertSymb(text,num){
+	if(num > 0)
 		hidebox(num);
 	if (input.selectionStart || input.selectionStart == '0') {
 		var startPos = input.selectionStart;
@@ -22,47 +22,26 @@ function insertSymb(text,num,mask){
 		var before = original.substring(0, startPos);
 		var after = original.substring(endPos, original.length);
 		var selected = original.substring(startPos, endPos);
-		if(mask || startPos == endPos){
+		if(typeof text == "object"){
+			if(startPos != endPos){
+				input.value = before + text.left + selected + text.right + after;
+				input.selectionStart = startPos;
+				input.selectionEnd = startPos;
+			}else{
+				input.value = before + text.disp + after;
+				input.selectionStart = startPos;
+				input.selectionEnd = startPos;
+			}
+		}else{
 			input.value = before + text + after;
 			input.selectionStart = startPos + text.length;
 			input.selectionEnd = startPos + text.length;
-		}else{
-			switch(num){
-			case 0:
-				input.value = before + text.substring(0, text.length - 5) + selected + "}" + after;
-				break;
-			case 2: 
-				input.value = before + text.substring(0, text.length - 1) + "{\\left(" + selected + "\\right)}" + after;
-				break;
-			case 3:
-				if(text.indexOf("x") > 0 && text.indexOf("matrix") < 0){
-					if(text.indexOf("xyz")>0){
-						input.value = before + text.substring(0, text.indexOf("xyz")) +
-							selected + text.substring(text.indexOf("xyz") + 3) + after;
-					}else {
-						input.value = before + text.substring(0, text.indexOf("x")) +
-							selected + text.substring(text.indexOf("x") + 1) + after;
-					}
-				}else{
-					if(text.substring(text.length-2)=="b}"){
-						input.value = before + text + selected + after;
-					}else{
-						input.value = before + text + after;
-					}
-				}
-				break;
-			case 5:
-				input.value = before + text.substring(0, text.indexOf("{")) + "{" + selected + "}" + after;
-				break;
-			}
-			input.selectionStart = startPos;
-			input.selectionEnd = startPos;
 		}
 		input.focus();
 		if (scrollPos > 0) {
 			input.scrollTop = scrollPos;
 		}
-	} else {
+	}else{
 		input.value += text;
 		input.focus();
 	}
@@ -126,66 +105,131 @@ var vm = new Vue({
 			["\\cdots ","\\vdots ","\\ddots "]
 		],
 		operators:[
-			["\\log ","\\lg ","\\ln ","\\sin ","\\cos ",
-			 "\\tan ","\\cot ","\\sec ","\\csc "],
-			["\\arcsin ","\\arccos ","\\arctan ","\\sinh ","\\cosh ",
-			 "\\tanh ","\\coth ","\\arg ","\\ker "],
-			["\\dim ","\\hom ","\\exp ","\\deg "],
-			["\\lim ","\\limsup ","\\liminf ","\\max ","\\min ",
-			 "\\sup ","\\inf ","\\det ","\\Pr"],
-			["\\gcd ","\\bmod "]
+			[{disp:"\\log ",left:"\\log{\\left(",right:"\\right)"},
+			 {disp:"\\log ",left:"\\log{\\left(",right:"\\right)"},
+			 {disp:"\\ln ",left:"\\ln{\\left(",right:"\\right)"},
+			 {disp:"\\sin ",left:"\\sin{\\left(",right:"\\right)"},
+			 {disp:"\\cos ",left:"\\cos{\\left(",right:"\\right)"},
+			 {disp:"\\tan ",left:"\\tan{\\left(",right:"\\right)"},
+			 {disp:"\\cot ",left:"\\cot{\\left(",right:"\\right)"},
+			 {disp:"\\sec ",left:"\\sec{\\left(",right:"\\right)"},
+			 {disp:"\\csc ",left:"\\csc{\\left(",right:"\\right)"}],
+			[{disp:"\\arcsin ",left:"\\arcsin{\\left(",right:"\\right)"},
+			 {disp:"\\arccos ",left:"\\arccos{\\left(",right:"\\right)"},
+			 {disp:"\\arctan ",left:"\\arctan{\\left(",right:"\\right)"},
+			 {disp:"\\sinh ",left:"\\sinh{\\left(",right:"\\right)"},
+			 {disp:"\\cosh ",left:"\\cosh{\\left(",right:"\\right)"},
+			 {disp:"\\tanh ",left:"\\tanh{\\left(",right:"\\right)"},
+			 {disp:"\\coth ",left:"\\coth{\\left(",right:"\\right)"},
+			 {disp:"\\arg ",left:"\\arg{\\left(",right:"\\right)"},
+			 {disp:"\\ker ",left:"\\ker{\\left(",right:"\\right)"}],
+			[{disp:"\\dim ",left:"\\dim{\\left(",right:"\\right)"},
+			 {disp:"\\hom ",left:"\\hom{\\left(",right:"\\right)"},
+			 {disp:"\\exp ",left:"\\exp{\\left(",right:"\\right)"},
+			 {disp:"\\deg ",left:"\\deg{\\left(",right:"\\right)"}],
+			[{disp:"\\lim ",left:"\\lim{\\left(",right:"\\right)"},
+			 {disp:"\\limsup ",left:"\\limsup{\\left(",right:"\\right)"},
+			 {disp:"\\liminf ",left:"\\liminf{\\left(",right:"\\right)"},
+			 {disp:"\\max ",left:"\\max{\\left(",right:"\\right)"},
+			 {disp:"\\min ",left:"\\min{\\left(",right:"\\right)"},
+			 {disp:"\\sup ",left:"\\sup{\\left(",right:"\\right)"},
+			 {disp:"\\inf ",left:"\\inf{\\left(",right:"\\right)"},
+			 {disp:"\\det ",left:"\\det{\\left(",right:"\\right)"},
+			 {disp:"\\Pr ",left:"\\Pr{\\left(",right:"\\right)"}],
+			[{disp:"\\gcd ",left:"\\gcd{\\left(",right:"\\right)"},
+			 {disp:"\\bmod ",left:"\\bmod{\\left(",right:"\\right)"}]
 		],
 		structures:[
-			["\\sqrt{x}","\\sqrt[a]{x}","{x}_{a}",
-			 "{x}^{a}","{x}_{a}^{b}","\\left|x\\right|",
-			 "\\left(x\\right)","\\left[x\\right]","\\left\\{x\\right\\}"],
-			["\\lfloor x\\rfloor ","\\lceil x\\rceil","\\left\\| x\\right\\|",
-			 "\\left< x\\right>","\\acute{x}","\\grave{x}",
-			 "\\ddot{x}","\\tilde{x}","\\bar{x}"],
-			["\\breve{x}","\\check{x}","\\hat{x}",
-			 "\\vec{x}","\\dot{x}","\\widetilde{x}",
-			 "\\widehat{x}","\\overbrace{xyz}^a","\\underbrace{xyz}_a",],
-			["\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}","\\frac{x}{y}","\\left({x\\atop y}\\right)",
-			 "\\overline{xyz}","\\overleftarrow{xyz}","\\overrightarrow{xyz}",
-			 "\\overleftrightarrow{xyz}","\\underline{xyz}","\\lim_{a\\to b}"],
-			["\\sum_{a}^{b}","\\prod_{a}^{b}","\\coprod_{a}^{b}",
-			 "\\int_{a}^{b}","\\iint_{a}^{b}","\\iiint_{a}^{b}",
-			 "\\oint_{a}^{b}","\\bigcup_{a}^{b}","\\bigcap_{a}^{b}"],
-			["\\biguplus_{a}^{b}","\\bigsqcup_{a}^{b}","\\bigvee_{a}^{b}",
-			 "\\bigwedge_{a}^{b}","\\bigodot_{a}^{b}","\\bigoplus_{a}^{b}",
-			 "\\bigotimes_{a}^{b}","\\overset{a}{x}","\\underset{a}{x}"]
+			[{disp:"\\sqrt{x} ",left:"\\sqrt{",right:"}"},
+			 {disp:"\\sqrt[a]{x} ",left:"\\sqrt[a]{",right:"}"},
+			 {disp:"{x}_{a} ",left:"{",right:"}_{a}"},
+			 {disp:"{x}^{a} ",left:"{",right:"}^{a}"},
+			 {disp:"{x}_{a}^{b} ",left:"\\sqrt[a]{",right:"}"},
+			 {disp:"\\left|x\\right|",left:"\\left|",right:"\\right|"},
+			 {disp:"\\left(x\\right)",left:"\\left(",right:"\\right)"},
+			 {disp:"\\left[x\\right]",left:"\\left[",right:"\\right]"},
+			 {disp:"\\left\\{x\\right\\}",left:"\\left\\{",right:"\\right\\}"}],
+			[{disp:"\\lfloor x\\rfloor",left:"\\lfloor ",right:"\\rfloor"},
+			 {disp:"\\lceil x\\rceil",left:"\\lceil ",right:"\\rceil"},
+			 {disp:"\\left\\|x\\right\\|",left:"\\left\\|",right:"\\right\\|"},
+			 {disp:"\\left<x\\right>",left:"\\left<",right:"\\right>"},
+			 {disp:"\\acute{x}",left:"\\acute{",right:"}"},
+			 {disp:"\\grave{x}",left:"\\grave{",right:"}"},
+			 {disp:"\\ddot{x}",left:"\\ddot{",right:"}"},
+			 {disp:"\\tilde{x}",left:"\\tilde{",right:"}"},
+			 {disp:"\\bar{x}",left:"\\bar{",right:"}"}],
+			[{disp:"\\breve{x}",left:"\\breve{",right:"}"},
+			 {disp:"\\check{x}",left:"\\check{",right:"}"},
+			 {disp:"\\hat{x}",left:"\\hat{",right:"}"},
+			 {disp:"\\vec{x}",left:"\\vec{",right:"}"},
+			 {disp:"\\dot{x}",left:"\\dot{",right:"}"},
+			 {disp:"\\widetilde{x}",left:"\\widetilde{",right:"}"},
+			 {disp:"\\widehat{x}",left:"\\widehat{",right:"}"},
+			 {disp:"\\overbrace{xyz}^{a}",left:"\\overbrace{",right:"}^{a}"},
+			 {disp:"\\underbrace{xyz}_{a}",left:"\\underbrace{",right:"}_{a}"}],
+			["\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}",
+			 {disp:"\\frac{x}{y}",left:"\\frac{",right:"}{y}"},
+			 {disp:"\\left({x\\atop y}\\right)",left:"\\left({",right:"\\atop y}\\right)"},
+			 {disp:"\\overline{xyz}",left:"\\overline{",right:"}"},
+			 {disp:"\\overleftarrow{xyz}",left:"\\overleftarrow{",right:"}"},
+			 {disp:"\\overrightarrow{xyz}",left:"\\overrightarrow{",right:"}"},
+			 {disp:"\\overleftrightarrow{xyz}",left:"\\overleftrightarrow{",right:"}"},
+			 {disp:"\\underline{xyz}",left:"\\underline{",right:"}"},
+			 {disp:"\\lim_{a\\to b}",left:"\\lim_{a\\to b}{",right:"}"}],
+			[{disp:"\\sum_{a}^{b}",left:"\\sum_{a}^{b}{",right:"}"},
+			 {disp:"\\prod_{a}^{b}",left:"\\prod_{a}^{b}{",right:"}"},
+			 {disp:"\\coprod_{a}^{b}",left:"\\coprod_{a}^{b}{",right:"}"},
+			 {disp:"\\int_{a}^{b}",left:"\\int_{a}^{b}{",right:"}"},
+			 {disp:"\\iint_{a}^{b}",left:"\\iint_{a}^{b}{",right:"}"},
+			 {disp:"\\iiint_{a}^{b}",left:"\\iiint_{a}^{b}{",right:"}"},
+			 {disp:"\\oint_{a}^{b}",left:"\\oint_{a}^{b}{",right:"}"},
+			 {disp:"\\bigcup_{a}^{b}",left:"\\bigcup_{a}^{b}{",right:"}"},
+			 {disp:"\\bigcap_{a}^{b}",left:"\\bigcap_{a}^{b}{",right:"}"}],
+			[{disp:"\\biguplus_{a}^{b}",left:"\\biguplus_{a}^{b}{",right:"}"},
+			 {disp:"\\bigsqcup_{a}^{b}",left:"\\bigsqcup_{a}^{b}{",right:"}"},
+			 {disp:"\\bigvee_{a}^{b}",left:"\\bigvee_{a}^{b}{",right:"}"},
+			 {disp:"\\bigwedge_{a}^{b}",left:"\\bigwedge_{a}^{b}{",right:"}"},
+			 {disp:"\\bigodot_{a}^{b}",left:"\\bigodot_{a}^{b}{",right:"}"},
+			 {disp:"\\bigoplus_{a}^{b}",left:"\\bigoplus_{a}^{b}{",right:"}"},
+			 {disp:"\\bigotimes_{a}^{b}",left:"\\bigotimes_{a}^{b}{",right:"}"},
+			 {disp:"\\overset{a}{x}",left:"\\overset{a}{",right:"}"},
+			 {disp:"\\underset{a}{x}",left:"\\underset{a}{",right:"}"}]
 		],
 		arrows:[
 			["\\gets ","\\to ","\\Leftarrow ","\\Rightarrow ","\\leftrightarrow ",
 			 "\\Leftrightarrow ","\\longleftarrow ","\\longrightarrow ","\\Longleftarrow ","\\Longrightarrow ",
-			 "\\longleftrightarrow ","\\Longleftrightarrow ","\\mapsto ","\\longmapsto "],
-			["\\hookleftarrow ","\\hookrightarrow ","\\leftharpoonup ","\\rightharpoonup ","\\leftharpoondown ",
+			 "\\longleftrightarrow ","\\Longleftrightarrow ","\\mapsto "],
+			["\\longmapsto ","\\hookleftarrow ","\\hookrightarrow ","\\leftharpoonup ","\\rightharpoonup ","\\leftharpoondown ",
 			 "\\rightharpoondown ","\\rightleftharpoons ","\\nearrow ","\\searrow ","\\swarrow ",
-			 "\\nwarrow ","\\uparrow ","\\downarrow ","\\Uparrow "],
-			["\\Downarrow ","\\updownarrow ","\\Updownarrow ","\\stackrel{\\triangle}{\\longrightarrow}"]
+			 "\\nwarrow ","\\uparrow "],
+			["\\downarrow ","\\Uparrow ","\\Downarrow ","\\updownarrow ","\\Updownarrow ",
+			 {disp:"\\stackrel{\\triangle}{\\longrightarrow}",left:"\\stackrel{",right:"}{\\longrightarrow}"}]
 		],
 		fonts:[
-			["\\mathrm{Roman}","\\mathbf{Bold font}","\\mathtt{Typewriter}"],
-			["\\mathsf{Sans serif}","\\mathscr{Script}","\\mathcal{CALIGRAPHY}"],
-			["\\mathbb{BLACKBOARD}","\\mathfrak{FRAKTUR}"]
+			[{disp:"\\mathrm{Roman}",left:"\\mathrm{",right:"}"},
+			 {disp:"\\mathbf{Bold font}",left:"\\mathbf{",right:"}"},
+			 {disp:"\\mathtt{Typewriter}",left:"\\mathtt{",right:"}"}],
+			[{disp:"\\mathsf{Sans serif}",left:"\\mathsf{",right:"}"},
+			 {disp:"\\mathscr{Script}",left:"\\mathscr{",right:"}"},
+			 {disp:"\\mathcal{CALIGRAPHY}",left:"\\mathcal{",right:"}"}],
+			[{disp:"\\mathbb{BLACKBOARD}",left:"\\mathbb{",right:"}"},
+			 {disp:"\\mathfrak{FRAKTUR}",left:"\\mathfrak{",right:"}"}]
 		]
 	},
 	methods:{
-		add:function(set,row,col){
-			switch(set){
-				case 1:insertSymb(this.symbols[row][col],1,true);break;
-				case 2:insertSymb(this.operators[row][col],2,false);break;
-				case 3:insertSymb(this.structures[row][col],3,false);break;
-				case 4:insertSymb(this.arrows[row][col],4,true);break;
-				case 5:insertSymb(this.fonts[row][col],5,false);break;
+		add:function(charset,row,col){
+			switch(charset){
+				case 1:insertSymb(this.symbols[row][col],1);break;
+				case 2:insertSymb(this.operators[row][col],2);break;
+				case 3:insertSymb(this.structures[row][col],3);break;
+				case 4:insertSymb(this.arrows[row][col],4);break;
+				case 5:insertSymb(this.fonts[row][col],5);break;
 			}
 		}
 	},
 	watch:{
 		fontsize(newVal){
-			if(newVal>=10){
-				//document.getElementById("output").getElementsByTagName("div")[0]
-				//.style.setProperty("font-size",newVal + "px","important");
+			if(newVal >= 10){
 				document.getElementById("output").getElementsByTagName("div")[0].style.cssText = 
 				"display: table-cell;vertical-align: middle;font-size:" + newVal + "px !important";
 				renderinput();

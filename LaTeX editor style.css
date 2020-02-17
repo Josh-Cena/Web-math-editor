@@ -44,15 +44,17 @@ header {
 	border-radius: 15px 15px 15px 15px;
 }
 #helpText{
-	height:400px;
+	height:300px;
 	overflow-x: scroll;
+	margin-top:50px;
 }
 #Helppanel p{
 	text-align:justify;
 	margin-left:20px;
 	margin-right:20px;
-	margin-top:5px;
-	margin-bottom:5px;
+	margin-top:25px;
+	margin-bottom:0px;
+	line-height:25px;
 }
 #Helppanel ul{
 	text-align:justify;
@@ -60,6 +62,7 @@ header {
 	margin-right:40px;
 	margin-top:5px;
 	margin-bottom:5px;
+	line-height:25px;
 }
 #Helppanel a:not(.closeBtn):active{
 	font-style: none;
