@@ -63,10 +63,12 @@ function expandHistory(){
 }
 function showHelp(){
 	document.getElementById("Helppanel").style.visibility = "visible";
+	document.getElementsByClassName("overlay")[0].style.display = "block";
 	document.getElementById("Helppanel").style.opacity = 1;
 }
 function hideHelp(){
 	document.getElementById("Helppanel").style.visibility = "hidden";
+	document.getElementsByClassName("overlay")[0].style.display = "none";
 	document.getElementById("Helppanel").style.opacity = 0;
 }
 var vm = new Vue({
