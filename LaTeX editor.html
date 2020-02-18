@@ -9,11 +9,11 @@
 <body>
 	<header>
 		\(\LaTeX\) Editor
-		<div id="HelpIcon"><img src="Icons/Help.svg" width="40px" onclick="showHelp()" /></div>
+		<div id="HelpIcon"><img src="Icons/Help.svg" width="40px" onclick="showDialog('Nameinput')" /></div>
 	</header>
 	<div class="overlay"></div>
-	<div id="Helppanel">
-		<a id="closeHelp" class="closeBtn" onclick="hideHelp()">×</a>
+	<div id="Helppanel" class="dialog">
+		<a class="closeBtn closedialog" onclick="hideDialog('Helppanel')">×</a>
 		<div id="helpText">
 			<h1>Help</h1>
 			<p>Stuck? Don't know how to implement what you have in mind? Here are some sources you may find useful: </p>
@@ -75,7 +75,7 @@
 						<table id="optab">
 							<tr v-for="(row,r) in operators">
 								<td v-for="(operator,c) in row">
-									<a href="#" v-on:click="add(2,r,c)" v-bind:title="operator">\({{operator.disp}}\)</a>
+									<a href="#" v-on:click="add(2,r,c)" v-bind:title="operator.disp">\({{operator.disp}}\)</a>
 								</td>
 							</tr>
 						</table>
@@ -87,7 +87,7 @@
 						<table id="structtab">
 							<tr v-for="(row,r) in structures">
 								<td v-for="(structure,c) in row">
-									<a href="#" v-on:click="add(3,r,c)" v-bind:title="structure">\[{{typeof structure == "string" ? structure : structure.disp}}\]</a>
+									<a href="#" v-on:click="add(3,r,c)" v-bind:title="typeof structure == 'string' ? structure : structure.disp">\[{{typeof structure == "string" ? structure : structure.disp}}\]</a>
 								</td>
 							</tr>
 						</table>
@@ -99,7 +99,7 @@
 						<table id="arrowtab">
 							<tr v-for="(row,r) in arrows">
 								<td v-for="(arrow,c) in row">
-									<a href="#" v-on:click="add(4,r,c)" v-bind:title="arrow">\({{typeof arrow == "string" ? arrow : arrow.disp}}\)</a>
+									<a href="#" v-on:click="add(4,r,c)" v-bind:title="typeof arrow == 'string' ? arrow : arrow.disp">\({{typeof arrow == "string" ? arrow : arrow.disp}}\)</a>
 								</td>
 							</tr>
 						</table>
@@ -111,7 +111,19 @@
 						<table id="fonttab">
 							<tr v-for="(row,r) in fonts">
 								<td v-for="(font,c) in row">
-									<a href="#" v-on:click="add(5,r,c)" v-bind:title="font">\({{font.disp}}\)</a>
+									<a href="#" v-on:click="add(5,r,c)" v-bind:title="font.disp">\({{font.disp}}\)</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</li>
+				<li id="Tab6" onmouseenter="showbox(6)" onmouseleave="hidebox(6)">
+					<a href="#">Styles</a>
+					<div id="Panel6">
+						<table id="stytab">
+							<tr v-for="(row,r) in styles">
+								<td v-for="(style,c) in row">
+									<a href="#" v-on:click="add(6,r,c)" v-bind:title="style.disp">\({{style.disp}}\)</a>
 								</td>
 							</tr>
 						</table>
@@ -123,10 +135,9 @@
 			<label for="sizebox">Font size:</label>
 			<input id="sizebox" v-model="fontsize">
 			<label for="sizebox">pt</label>
-			<label for="colorbox" id="colorlabel">Color:</label>
 			<input id="colorbox" type="color" value="#FF0000" v-model="color">
 			<button onclick="insertSymb({disp:'\\color{'+document.getElementById('colorbox').value+'}{text}',
-							left:'\\color{'+document.getElementById('colorbox').value+'}{',right:'}'},0)">Insert color</button>
+							left:'\\color{'+document.getElementById('colorbox').value+'}{',right:'}'})">Insert color</button>
 		</div>
 	</div>
 	<div id="text">
@@ -143,6 +154,12 @@
 				</li>
 			</transition-group>
 			<button id="pushBtn" v-on:click="pushformula()">Push current formula</button>
+		</div>
+		<div id="Nameinput" class="dialog">
+			<p>Please enter a name for this formula: </p>
+			<input id="formulaname" placeholder="name"></input>
+			<br><button id="cancel" onclick="hideDialog('Nameinput')">Cancel</button>
+			<button id="confirm" onclick="hideDialog('Nameinput')">Confirm</button>
 		</div>
 	</div>
 	<script type="text/javascript" src="LaTeX editor.js"></script>

@@ -11,9 +11,7 @@ function showbox(num){
 function hidebox(num){
 	document.getElementById("Panel" + num).style.display = "none";
 }
-function insertSymb(text,num){
-	if(num > 0)
-		hidebox(num);
+function insertSymb(text){
 	if (input.selectionStart || input.selectionStart == '0') {
 		var startPos = input.selectionStart;
 		var endPos = input.selectionEnd;
@@ -61,15 +59,15 @@ function expandHistory(){
 		document.getElementById("historypanel").style.right = "0px";
 	},3);
 }
-function showHelp(){
-	document.getElementById("Helppanel").style.visibility = "visible";
+function showDialog(name){
+	document.getElementById(name).style.visibility = "visible";
 	document.getElementsByClassName("overlay")[0].style.display = "block";
-	document.getElementById("Helppanel").style.opacity = 1;
+	document.getElementById(name).style.opacity = 1;
 }
-function hideHelp(){
-	document.getElementById("Helppanel").style.visibility = "hidden";
+function hideDialog(name){
+	document.getElementById(name).style.visibility = "hidden";
 	document.getElementsByClassName("overlay")[0].style.display = "none";
-	document.getElementById("Helppanel").style.opacity = 0;
+	document.getElementById(name).style.opacity = 0;
 }
 var vm = new Vue({
 	el:"#toolbar",
@@ -107,39 +105,39 @@ var vm = new Vue({
 			["\\cdots ","\\vdots ","\\ddots "]
 		],
 		operators:[
-			[{disp:"\\log ",left:"\\log{\\left(",right:"\\right)"},
-			 {disp:"\\log ",left:"\\log{\\left(",right:"\\right)"},
-			 {disp:"\\ln ",left:"\\ln{\\left(",right:"\\right)"},
-			 {disp:"\\sin ",left:"\\sin{\\left(",right:"\\right)"},
-			 {disp:"\\cos ",left:"\\cos{\\left(",right:"\\right)"},
-			 {disp:"\\tan ",left:"\\tan{\\left(",right:"\\right)"},
-			 {disp:"\\cot ",left:"\\cot{\\left(",right:"\\right)"},
-			 {disp:"\\sec ",left:"\\sec{\\left(",right:"\\right)"},
-			 {disp:"\\csc ",left:"\\csc{\\left(",right:"\\right)"}],
-			[{disp:"\\arcsin ",left:"\\arcsin{\\left(",right:"\\right)"},
-			 {disp:"\\arccos ",left:"\\arccos{\\left(",right:"\\right)"},
-			 {disp:"\\arctan ",left:"\\arctan{\\left(",right:"\\right)"},
-			 {disp:"\\sinh ",left:"\\sinh{\\left(",right:"\\right)"},
-			 {disp:"\\cosh ",left:"\\cosh{\\left(",right:"\\right)"},
-			 {disp:"\\tanh ",left:"\\tanh{\\left(",right:"\\right)"},
-			 {disp:"\\coth ",left:"\\coth{\\left(",right:"\\right)"},
-			 {disp:"\\arg ",left:"\\arg{\\left(",right:"\\right)"},
-			 {disp:"\\ker ",left:"\\ker{\\left(",right:"\\right)"}],
-			[{disp:"\\dim ",left:"\\dim{\\left(",right:"\\right)"},
-			 {disp:"\\hom ",left:"\\hom{\\left(",right:"\\right)"},
-			 {disp:"\\exp ",left:"\\exp{\\left(",right:"\\right)"},
-			 {disp:"\\deg ",left:"\\deg{\\left(",right:"\\right)"}],
-			[{disp:"\\lim ",left:"\\lim{\\left(",right:"\\right)"},
-			 {disp:"\\limsup ",left:"\\limsup{\\left(",right:"\\right)"},
-			 {disp:"\\liminf ",left:"\\liminf{\\left(",right:"\\right)"},
-			 {disp:"\\max ",left:"\\max{\\left(",right:"\\right)"},
-			 {disp:"\\min ",left:"\\min{\\left(",right:"\\right)"},
-			 {disp:"\\sup ",left:"\\sup{\\left(",right:"\\right)"},
-			 {disp:"\\inf ",left:"\\inf{\\left(",right:"\\right)"},
-			 {disp:"\\det ",left:"\\det{\\left(",right:"\\right)"},
-			 {disp:"\\Pr ",left:"\\Pr{\\left(",right:"\\right)"}],
-			[{disp:"\\gcd ",left:"\\gcd{\\left(",right:"\\right)"},
-			 {disp:"\\bmod ",left:"\\bmod{\\left(",right:"\\right)"}]
+			[{disp:"\\log ",left:"\\log{\\left(",right:"\\right)}"},
+			 {disp:"\\log ",left:"\\log{\\left(",right:"\\right)}"},
+			 {disp:"\\ln ",left:"\\ln{\\left(",right:"\\right)}"},
+			 {disp:"\\sin ",left:"\\sin{\\left(",right:"\\right)}"},
+			 {disp:"\\cos ",left:"\\cos{\\left(",right:"\\right)}"},
+			 {disp:"\\tan ",left:"\\tan{\\left(",right:"\\right)}"},
+			 {disp:"\\cot ",left:"\\cot{\\left(",right:"\\right)}"},
+			 {disp:"\\sec ",left:"\\sec{\\left(",right:"\\right)}"},
+			 {disp:"\\csc ",left:"\\csc{\\left(",right:"\\right)}"}],
+			[{disp:"\\arcsin ",left:"\\arcsin{\\left(",right:"\\right)}"},
+			 {disp:"\\arccos ",left:"\\arccos{\\left(",right:"\\right)}"},
+			 {disp:"\\arctan ",left:"\\arctan{\\left(",right:"\\right)}"},
+			 {disp:"\\sinh ",left:"\\sinh{\\left(",right:"\\right)}"},
+			 {disp:"\\cosh ",left:"\\cosh{\\left(",right:"\\right)}"},
+			 {disp:"\\tanh ",left:"\\tanh{\\left(",right:"\\right)}"},
+			 {disp:"\\coth ",left:"\\coth{\\left(",right:"\\right)}"},
+			 {disp:"\\arg ",left:"\\arg{\\left(",right:"\\right)}"},
+			 {disp:"\\ker ",left:"\\ker{\\left(",right:"\\right)}"}],
+			[{disp:"\\dim ",left:"\\dim{\\left(",right:"\\right)}"},
+			 {disp:"\\hom ",left:"\\hom{\\left(",right:"\\right)}"},
+			 {disp:"\\exp ",left:"\\exp{\\left(",right:"\\right)}"},
+			 {disp:"\\deg ",left:"\\deg{\\left(",right:"\\right)}"}],
+			[{disp:"\\lim ",left:"\\lim{\\left(",right:"\\right)}"},
+			 {disp:"\\limsup ",left:"\\limsup{\\left(",right:"\\right)}"},
+			 {disp:"\\liminf ",left:"\\liminf{\\left(",right:"\\right)}"},
+			 {disp:"\\max ",left:"\\max{\\left(",right:"\\right)}"},
+			 {disp:"\\min ",left:"\\min{\\left(",right:"\\right)}"},
+			 {disp:"\\sup ",left:"\\sup{\\left(",right:"\\right)}"},
+			 {disp:"\\inf ",left:"\\inf{\\left(",right:"\\right)}"},
+			 {disp:"\\det ",left:"\\det{\\left(",right:"\\right)}"},
+			 {disp:"\\Pr ",left:"\\Pr{\\left(",right:"\\right)}"}],
+			[{disp:"\\gcd ",left:"\\gcd{\\left(",right:"\\right)}"},
+			 {disp:"\\bmod ",left:"\\bmod{\\left(",right:"\\right)}"}]
 		],
 		structures:[
 			[{disp:"\\sqrt{x} ",left:"\\sqrt{",right:"}"},
@@ -215,17 +213,35 @@ var vm = new Vue({
 			 {disp:"\\mathscr{Script}",left:"\\mathscr{",right:"}"},
 			 {disp:"\\mathcal{CALIGRAPHY}",left:"\\mathcal{",right:"}"}],
 			[{disp:"\\mathbb{BLACKBOARD}",left:"\\mathbb{",right:"}"},
-			 {disp:"\\mathfrak{FRAKTUR}",left:"\\mathfrak{",right:"}"}]
+			 {disp:"\\mathfrak{FRAKTUR}",left:"\\mathfrak{",right:"}"}],
+			[{disp:"{\\Huge Huge}",left:"{\\Huge ",right:"}"},
+			 {disp:"{\\huge huge}",left:"{\\huge ",right:"}"},
+			 {disp:"{\\LARGE LARGE}",left:"{\\LARGE",right:"}"}],
+			[{disp:"{\\Large Large}",left:"{\\Large",right:"}"},
+			 {disp:"{\\large large}",left:"{\\large",right:"}"},
+			 {disp:"{\\normalsize normal}",left:"{\\normal",right:"}"}],
+			[{disp:"{\\small small}",left:"{\\small",right:"}"},
+			 {disp:"{\\scriptsize script}",left:"{\\scriptsize",right:"}"},
+			 {disp:"{\\tiny tiny}",left:"{\\tiny",right:"}"}]
+		],
+		styles:[
+			[{disp:"{\\displaystyle \\sum_a^b}",left:"{\\displaystyle ",right:"}"},
+			 {disp:"{\\textstyle \\sum_a^b}",left:"{\\textstyle ",right:"}"},
+			 {disp:"{\\scriptstyle \\sum_a^b}",left:"{\\scriptstyle ",right:"}"},
+			 {disp:"{\\scriptscriptstyle \\sum_a^b}",left:"{\\scriptscriptstyle ",right:"}"}],
+			[{disp:"\\text{Text}",left:"\\text{",right:"}"}]
 		]
 	},
 	methods:{
 		add:function(charset,row,col){
+			hidebox(charset);
 			switch(charset){
-				case 1:insertSymb(this.symbols[row][col],1);break;
-				case 2:insertSymb(this.operators[row][col],2);break;
-				case 3:insertSymb(this.structures[row][col],3);break;
-				case 4:insertSymb(this.arrows[row][col],4);break;
-				case 5:insertSymb(this.fonts[row][col],5);break;
+				case 1:insertSymb(this.symbols[row][col]);break;
+				case 2:insertSymb(this.operators[row][col]);break;
+				case 3:insertSymb(this.structures[row][col]);break;
+				case 4:insertSymb(this.arrows[row][col]);break;
+				case 5:insertSymb(this.fonts[row][col]);break;
+				case 6:insertSymb(this.styles[row][col]);break;
 			}
 		}
 	},
@@ -247,7 +263,8 @@ var vm2 = new Vue({
 			{name:"Gauss-Bonnet formula",formula:"\\oint_C\\kappa_g\\,\\mathrm{d}s+\\iint_DK\\,\\mathrm{d}\\sigma=2\\pi-\\sum_{i=1}^n\\alpha_i"},
 			{name:"Fourier integral",formula:"\\lim_{N\\to+\\infty}\\frac1{2\\pi}\\int_{-N}^{N}\\hat{f}(\\lambda)\\,\\mathrm{e}^{\\mathrm{i}\\lambda x}\\,\\mathrm{d}\\lambda=f(x)"},
 			{name:"Simultaneous linear equations",formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
-		]
+		],
+		confirmed:false
 	},
 	computed:{
 		icon:function(){

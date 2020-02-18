@@ -40,20 +40,22 @@ header {
 	background-color: rgba(0,0,0,0.4); 
 	z-index:3; 
 	filter: alpha(opacity=50); 
-} 
-#Helppanel{
+}
+.dialog{
 	margin:auto;
 	left:0;right:0;top:0;bottom:0;
 	width:650px;
-	height:400px;
 	position:absolute;
 	background-color: white;
 	visibility:hidden;
 	opacity:0;
 	transition: all 0.3s linear;
 	border: 2px solid steelblue;
-	border-radius: 15px 15px 15px 15px;
+	border-radius: 10px 10px 10px 10px;
 	z-index:4;
+}
+#Helppanel{
+	height:400px;
 }
 #helpText{
 	height:300px;
@@ -88,7 +90,45 @@ header {
 	font-style: none;
 	color:red;
 }
-#closeHelp{
+#Nameinput{
+	Height:170px;
+	text-align: left;
+}
+#Nameinput p{
+	margin-top:30px;
+	margin-left:30px;
+	margin-bottom: 15px;
+	font-size:20px;
+}
+#Nameinput input{
+	margin-left:30px;
+	margin-bottom:25px;
+	width:80%;
+	height:25px;
+	outline: none;
+}
+#cancel{
+	margin-left:460px;
+	width:80px;
+	height:30px;
+	font-size:16px;
+	border: 1px solid lightgrey;
+	border-radius: 3px;
+	background-color: white;
+	cursor: pointer;
+}
+#confirm{
+	margin-left:10px;
+	width:80px;
+	height:30px;
+	font-size:16px;
+	color:white;
+	border: 1px solid steelblue;
+	border-radius: 3px;
+	background-color: steelblue;
+	cursor: pointer;
+}
+.closedialog{
 	z-index:1;
 	right: 14px;
 	top: 10px;
@@ -159,8 +199,11 @@ table td{
 #fonttab td{
 	width: 120px;
 }
+#stytab td{
+	width:160px;
+}
 #fontsetting{
-	margin-top:100px;
+	margin-top:150px;
 }
 #fontsetting>input{
 	margin-left:3px;
@@ -170,11 +213,6 @@ table td{
 	margin-top:40px;
 	margin-left:3px;
 	width:80px;
-}
-#colorlabel{
-	top:317px;
-	left:20px;
-	position:absolute;
 }
 #text{
 	position:absolute;
@@ -204,14 +242,14 @@ table td{
 }
 #historypanel{
 	width: 310px;
-	height:100%;
+	height:calc(100% - 50px);
 	right: 0px;
 	top: 50px;
 	position: absolute;
 	box-shadow: -10px 0px 20px 0px rgb(204,204,204);
 	background-color: #EEEEEE;
 	transition: right 0.5s;
-	overflow-x:visible;
+	overflow-x:scroll;
 	overflow-y:visible;
 }
 #historypanel ul{
@@ -256,7 +294,7 @@ table td{
 	cursor: pointer;
 }
 #foldBtn {
-	top: 40%;
+	top: calc(50% - 37px);
 	height: 75px;
 	right: 308px;
 	position: absolute;
