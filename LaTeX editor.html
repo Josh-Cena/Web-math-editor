@@ -9,7 +9,7 @@
 <body>
 	<header>
 		\(\LaTeX\) Editor
-		<div id="HelpIcon"><img src="Icons/Help.svg" width="40px" onclick="showDialog('Nameinput')" /></div>
+		<div id="HelpIcon"><img src="Icons/Help.svg" width="40px" onclick="showDialog('Helppanel')" /></div>
 	</header>
 	<div class="overlay"></div>
 	<div id="Helppanel" class="dialog">
@@ -157,9 +157,9 @@
 		</div>
 		<div id="Nameinput" class="dialog">
 			<p>Please enter a name for this formula: </p>
-			<input id="formulaname" placeholder="name"></input>
-			<br><button id="cancel" onclick="hideDialog('Nameinput')">Cancel</button>
-			<button id="confirm" onclick="hideDialog('Nameinput')">Confirm</button>
+			<input id="formulaname" placeholder="Name"></input>
+			<br><button id="cancel" v-on:click="giveup()">Cancel</button>
+			<button id="confirm" v-on:click="proceed()">Confirm</button>
 		</div>
 	</div>
 	<script type="text/javascript" src="LaTeX editor.js"></script>

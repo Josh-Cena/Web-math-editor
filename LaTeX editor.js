@@ -298,13 +298,9 @@ var vm2 = new Vue({
 		},
 		pushformula:function(){
 			if(input.value.length > 0){
-				var fname = prompt("Please enter a name for this formula");
-				if (fname != null && fname != "") {
-				    this.formulas.push({name:fname,formula:input.value});
-					setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,"history"])},100);
-				}else{
-					return;
-				}
+				showDialog("Nameinput");
+			}else{
+				alert("Empty formula");
 			}
 		},
 		hide:function(){
@@ -313,6 +309,21 @@ var vm2 = new Vue({
 			else
 				expandHistory();
 			this.seen = !this.seen;
+		},
+		giveup:function(){
+			hideDialog('Nameinput');
+			setTimeout(function(){document.getElementById("formulaname").value = "";},300);
+		},
+		proceed:function(){
+			hideDialog('Nameinput');
+			var fname = document.getElementById("formulaname").value;
+			if (fname != null && fname != "") {
+			    this.formulas.push({name:fname,formula:input.value});
+				setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,"history"])},100);
+			}else{
+				return;
+			}
+			setTimeout(function(){document.getElementById("formulaname").value = "";},300);
 		}
 	},
 	created: function(){
