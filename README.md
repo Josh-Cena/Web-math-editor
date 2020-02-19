@@ -12,5 +12,4 @@ A webpage real-time formula editor powered by MathJax
     - Edit and reorder history items; 
     - **Important** export math as picture file
 - Improve: 
-    - Complete the dialog's functionality;
     - Animated help
