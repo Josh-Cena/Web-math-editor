@@ -8,7 +8,6 @@ A webpage real-time formula editor powered by MathJax
 - Add: 
     - Custom math structure; 
     - Custom commands; 
-    - Settings panel; 
     - Edit and reorder history items; 
     - **Important** export math as picture file
 - Improve: 
