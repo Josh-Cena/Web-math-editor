@@ -205,10 +205,6 @@ table td{
 #fontsetting{
 	margin-top:150px;
 }
-#fontsetting>input{
-	margin-left:3px;
-	width:40px;
-}
 #fontsetting>input[type="color"]{
 	margin-top:40px;
 	margin-left:3px;
@@ -252,13 +248,57 @@ table td{
 	overflow-x:scroll;
 	overflow-y:visible;
 }
-#historypanel ul{
+#topbar{
+	width:100%;
+	height:36px;
+	border-bottom: 4px solid steelblue;
+	box-shadow:inset 0px -2px 5px 0px rgba(0,0,0,0.3);
+	background-color: #DDDDDD;
+	position:fixed;
+	top:50px;
+	z-index: 1;
+}
+#icons{
+	width:100%;
+	margin-left:-10px;
+	bottom:0px;
+	list-style: none;
+	position:relative;
+	top:-11px;
+}
+#icons li{
 	float:left;
 	position:relative;
+	width:50px;
+	margin-right:10px;
+	background-color: #EEEEEE;
+	border-radius: 4px 4px 0px 0px;
+	border-left:2px solid steelblue;
+	border-right:2px solid steelblue;
+	border-top:2px solid steelblue;
+}
+#L1{height:33px;}
+#L2{height:29px;}
+#L3{height:29px;}
+#L4{height:29px;}
+#icons li a{
+	position:relative;
+	top:2px;
+}
+.menu{
+	position:absolute;
+	top:36px;
+	right:20px;
+	width:290px;
+}
+#hislist{
+	float:left;
+	position:relative;
+	top:0px;
 	left:-30px;
 	width:290px;
 }
-#historypanel ul li{
+#hislist li{
 	list-style:none;
 	width:290px;
 	background-color: white;
@@ -275,17 +315,18 @@ table td{
 .hislist-leave-active {
 	position: absolute;
 }
-#historypanel ul li p{
+#hislist li p{
 	cursor:pointer;
 }
-#historypanel ul li a{
+#hislist li a{
 	right: 4px;
 }
 #pushBtn{
 	width: 250px;
 	height: 40px;
-	margin-top: 30px;
+	margin-top: 20px;
 	margin-bottom: 50px;
+	margin-left: 20px;
 	font-size: 18px;
 	color: black;
 	background-color: white;
@@ -307,6 +348,9 @@ table td{
 	outline:none;
 	transition: right 0.5s;
 }
+#menu2{display:none;}
+#menu3{display:none;}
+#menu4{display:none;}
 .MathJax {
 	outline: 0;
 }

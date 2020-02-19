@@ -11,6 +11,14 @@ function showbox(num){
 function hidebox(num){
 	document.getElementById("Panel" + num).style.display = "none";
 }
+function toFront(num){
+	for(var i = 1;i < 5;i++){
+		document.getElementById("L" + i).style.height = "29px";
+		document.getElementById("menu" + i).style.display = "none";
+	}
+	document.getElementById("L" + num).style.height = "33px";
+	document.getElementById("menu" + num).style.display = "block";
+}
 function insertSymb(text){
 	if (input.selectionStart || input.selectionStart == '0') {
 		var startPos = input.selectionStart;
@@ -23,17 +31,17 @@ function insertSymb(text){
 		if(typeof text == "object"){
 			if(startPos != endPos){
 				input.value = before + text.left + selected + text.right + after;
-				input.selectionStart = startPos;
-				input.selectionEnd = startPos;
+				input.selectionStart = startPos + text.left.length + selected.length + text.right.length;
+				input.selectionEnd = input.selectionStart;
 			}else{
 				input.value = before + text.disp + after;
-				input.selectionStart = startPos;
-				input.selectionEnd = startPos;
+				input.selectionStart = startPos + text.disp.length;
+				input.selectionEnd = input.selectionStart;
 			}
 		}else{
 			input.value = before + text + after;
 			input.selectionStart = startPos + text.length;
-			input.selectionEnd = startPos + text.length;
+			input.selectionEnd = input.selectionStart;
 		}
 		input.focus();
 		if (scrollPos > 0) {
@@ -72,7 +80,6 @@ function hideDialog(name){
 var vm = new Vue({
 	el:"#toolbar",
 	data:{
-		fontsize:20,
 		symbols:[
 			["\\alpha ","\\beta ","\\gamma ","\\delta ","\\epsilon ",
 			 "\\zeta ","\\eta ","\\theta ","\\iota ","\\kappa ",
@@ -199,9 +206,9 @@ var vm = new Vue({
 			["\\gets ","\\to ","\\Leftarrow ","\\Rightarrow ","\\leftrightarrow ",
 			 "\\Leftrightarrow ","\\longleftarrow ","\\longrightarrow ","\\Longleftarrow ","\\Longrightarrow ",
 			 "\\longleftrightarrow ","\\Longleftrightarrow ","\\mapsto "],
-			["\\longmapsto ","\\hookleftarrow ","\\hookrightarrow ","\\leftharpoonup ","\\rightharpoonup ","\\leftharpoondown ",
-			 "\\rightharpoondown ","\\rightleftharpoons ","\\nearrow ","\\searrow ","\\swarrow ",
-			 "\\nwarrow ","\\uparrow "],
+			["\\longmapsto ","\\hookleftarrow ","\\hookrightarrow ","\\leftharpoonup ","\\rightharpoonup ",
+			 "\\leftharpoondown ","\\rightharpoondown ","\\rightleftharpoons ","\\nearrow ","\\searrow ",
+			 "\\swarrow ","\\nwarrow ","\\uparrow "],
 			["\\downarrow ","\\Uparrow ","\\Downarrow ","\\updownarrow ","\\Updownarrow ",
 			 {disp:"\\stackrel{\\triangle}{\\longrightarrow}",left:"\\stackrel{",right:"}{\\longrightarrow}"}]
 		],
@@ -236,21 +243,12 @@ var vm = new Vue({
 		add:function(charset,row,col){
 			hidebox(charset);
 			switch(charset){
-				case 1:insertSymb(this.symbols[row][col]);break;
-				case 2:insertSymb(this.operators[row][col]);break;
-				case 3:insertSymb(this.structures[row][col]);break;
-				case 4:insertSymb(this.arrows[row][col]);break;
-				case 5:insertSymb(this.fonts[row][col]);break;
-				case 6:insertSymb(this.styles[row][col]);break;
-			}
-		}
-	},
-	watch:{
-		fontsize(newVal){
-			if(newVal >= 10){
-				document.getElementById("output").getElementsByTagName("div")[0].style.cssText = 
-				"display: table-cell;vertical-align: middle;font-size:" + newVal + "px !important";
-				renderinput();
+				case 1: insertSymb(this.symbols[row][col]);break;
+				case 2: insertSymb(this.operators[row][col]);break;
+				case 3: insertSymb(this.structures[row][col]);break;
+				case 4: insertSymb(this.arrows[row][col]);break;
+				case 5: insertSymb(this.fonts[row][col]);break;
+				case 6: insertSymb(this.styles[row][col]);break;
 			}
 		}
 	}
@@ -258,11 +256,15 @@ var vm = new Vue({
 var vm2 = new Vue({
 	el:"#history",
 	data:{
+		fontsize:20,
 		seen:true,
 		formulas:[
-			{name:"Gauss-Bonnet formula",formula:"\\oint_C\\kappa_g\\,\\mathrm{d}s+\\iint_DK\\,\\mathrm{d}\\sigma=2\\pi-\\sum_{i=1}^n\\alpha_i"},
-			{name:"Fourier integral",formula:"\\lim_{N\\to+\\infty}\\frac1{2\\pi}\\int_{-N}^{N}\\hat{f}(\\lambda)\\,\\mathrm{e}^{\\mathrm{i}\\lambda x}\\,\\mathrm{d}\\lambda=f(x)"},
-			{name:"Simultaneous linear equations",formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
+			{name:"Gauss-Bonnet formula",
+			 formula:"\\oint_C\\kappa_g\\,\\mathrm{d}s+\\iint_DK\\,\\mathrm{d}\\sigma=2\\pi-\\sum_{i=1}^n\\alpha_i"},
+			{name:"Fourier integral",
+			 formula:"\\lim_{N\\to+\\infty}\\frac1{2\\pi}\\int_{-N}^{N}\\hat{f}(\\lambda)\\,\\mathrm{e}^{\\mathrm{i}\\lambda x}\\,\\mathrm{d}\\lambda=f(x)"},
+			{name:"Simultaneous linear equations",
+			 formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
 		],
 		confirmed:false
 	},
@@ -289,7 +291,7 @@ var vm2 = new Vue({
 				setTimeout(function(){
 					var math = MathJax.Hub.getAllJax("history");
 					for(var i = index; i < math.length; i++){
-						MathJax.Hub.Queue(["Text",math[i],this.formulas[i]]);
+						MathJax.Hub.Queue(["Typeset",math[i],this.formulas[i]]);
 					}
 				},2000);
 			}else{
@@ -299,6 +301,7 @@ var vm2 = new Vue({
 		pushformula:function(){
 			if(input.value.length > 0){
 				showDialog("Nameinput");
+				document.getElementById("formulaname").focus();
 			}else{
 				alert("Empty formula");
 			}
@@ -318,7 +321,7 @@ var vm2 = new Vue({
 			hideDialog('Nameinput');
 			var fname = document.getElementById("formulaname").value;
 			if (fname != null && fname != "") {
-			    this.formulas.push({name:fname,formula:input.value});
+				this.formulas.push({name:fname,formula:input.value});
 				setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,"history"])},100);
 			}else{
 				return;
@@ -334,6 +337,13 @@ var vm2 = new Vue({
 	watch:{
 		formulas(newVal,oldVal){
 			localStorage.setItem("webmathdata", JSON.stringify(newVal));
+		},
+		fontsize(newVal){
+			if(newVal >= 10){
+				document.getElementById("output").getElementsByTagName("div")[0].style.cssText = 
+				"display: table-cell;vertical-align: middle;font-size:" + newVal + "px !important";
+				renderinput();
+			}
 		}
 	}
 })
