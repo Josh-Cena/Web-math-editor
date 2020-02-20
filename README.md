@@ -4,7 +4,7 @@ A webpage real-time formula editor powered by MathJax
 ## Todo list:
 - Fix:  
     - Font size problems;
-    - Regex matching;
+    - Regex matching of `a\\RR`: a problem of lookbehind;
     - Deletion of history item not resulting in update
 - Add: 
     - Custom math structure; 
