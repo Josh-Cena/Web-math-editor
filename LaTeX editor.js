@@ -6,11 +6,8 @@ var renderinput = function(){
 		MathJax.Hub.Queue(["Text", math, rawText]);
 	});
 };
-function showbox(num){
-	document.getElementById("Panel" + num).style.display = "block";
-}
-function hidebox(num){
-	document.getElementById("Panel" + num).style.display = "none";
+function showbox(num,show){
+	document.getElementById("Panel" + num).style.display = show ? "block" : "none";
 }
 function insertSymb(text){
 	if (input.selectionStart || input.selectionStart == '0') {
@@ -58,15 +55,10 @@ function expandHistory(){
 		document.getElementById("historypanel").style.right = "0px";
 	},3);
 }
-function showDialog(name){
-	document.getElementById(name).style.visibility = "visible";
-	document.getElementsByClassName("overlay")[0].style.display = "block";
-	document.getElementById(name).style.opacity = 1;
-}
-function hideDialog(name){
-	document.getElementById(name).style.visibility = "hidden";
-	document.getElementsByClassName("overlay")[0].style.display = "none";
-	document.getElementById(name).style.opacity = 0;
+function showDialog(name,show){
+	document.getElementById(name).style.visibility = show ? "visible" : "hidden";
+	document.getElementsByClassName("overlay")[0].style.display = show ? "block" : "none";
+	document.getElementById(name).style.opacity = show ? 1 : 0;
 }
 var vm = new Vue({
 	el:"#toolbar",
@@ -264,10 +256,7 @@ var vm2 = new Vue({
 	},
 	computed:{
 		icon:function(){
-			if(this.seen)
-				return "▶";
-			else
-				return "◀";
+			return this.seen ? "▶" : "◀";
 		}
 	},
 	methods:{
@@ -278,14 +267,13 @@ var vm2 = new Vue({
 		parseRawtext:function(rawText){
 			for(shortcut of this.shortcuts){
 				var reg = shortcut.short.replace(/\\/g,"\\\\");
-				reg = eval("/" + reg + "/g");
+				reg = eval("/" + reg + "([^a-zA-Z]|$)/g");
 				rawText = rawText.replace(reg,shortcut.cut);
 			}
 			return rawText;
 		},
 		removeformula:function(index){
-			var r = confirm("Do you really want to delete this formula? \nThis action can NOT be recovered");
-			if (r == true){
+			if (confirm("Do you really want to delete this formula? \nThis action can NOT be undone")){
 				this.formulas.splice(index,1);
 				setTimeout(function(){
 					var math = MathJax.Hub.getAllJax("history");
@@ -293,13 +281,11 @@ var vm2 = new Vue({
 						MathJax.Hub.Queue(["Typeset",math[i],this.formulas[i]]);
 					}
 				},2000);
-			}else{
-				return;
 			}
 		},
 		pushformula:function(){
 			if(input.value.length > 0){
-				showDialog("Nameinput");
+				showDialog("Nameinput",true);
 				document.getElementById("formulaname").focus();
 			}else{
 				alert("Empty formula");
@@ -313,7 +299,7 @@ var vm2 = new Vue({
 			this.seen = !this.seen;
 		},
 		proceedSaving:function(confirm){
-			hideDialog('Nameinput');
+			showDialog('Nameinput',false);
 			var fname = document.getElementById("formulaname").value;
 			if (confirm && fname != null && fname != "") {
 				this.formulas.push({name:fname,formula:input.value});
@@ -322,15 +308,14 @@ var vm2 = new Vue({
 			setTimeout(function(){document.getElementById("formulaname").value = "";},300);
 		},
 		proceedAddingSC:function(confirm){
-			hideDialog('AddSC');
+			showDialog('AddSC',false);
 			var shortBox = document.getElementById("short");
 			var cutBox = document.getElementById("cut");
 			if(confirm){
 				if(shortBox.value == "" || cutBox.value == "")
 					alert("Cannot contain empty element");
-				else{
-					this.shortcuts.push({short:"\\" + shortBox.value,cut:"\\" + cutBox.value});
-				}
+				else
+					this.shortcuts.push({short:"\\" + shortBox.value,cut:cutBox.value});
 			}
 			setTimeout(function(){shortBox.value = "";cutBox.value = "";},300);
 		},
