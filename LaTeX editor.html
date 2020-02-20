@@ -14,48 +14,6 @@
 		<div id="HelpIcon"><img src="Icons/Help.svg" width="40px" onclick="showDialog('Helppanel')" /></div>
 	</header>
 	<div class="overlay"></div>
-	<div id="Helppanel" class="dialog">
-		<a class="closeBtn closedialog" onclick="hideDialog('Helppanel')">×</a>
-		<div id="helpText">
-			<h1>Help</h1>
-			<p>Stuck? Don't know how to implement what you have in mind? Here are some sources you may find useful: </p>
-			<a href="https://tex.stackexchange.com" target="_blank">The TeX Stack Exchange</a>
-			<br><a href="https://docs.mathjax.org/en/latest/input/tex/index.html" target="_blank">About MathJax</a>
-			<h2>About this webpage</h2>
-			<p>This is a webpage designed for real-time formula edition that unfortunately isn't provided
-				in most TeX softwares. It uses MathJax to render the formula, whose syntax is very much akin
-				to that of LaTeX, except having much fewer symbols and environments. See the links above for
-				more detailed information about both.</p>
-			<p>On the left is the <b>tool bar</b>. Every tab has a drop-down list that contains a variety of
-				pre-defined TeX symbols and structures. Click on any of them to have it added to the input box.
-				For most symbols, selecting a range of text will result in that region be overriden with the
-				new content; but there are a few exceptions.</p>
-			<ul>
-				<li><i>Symbols</i> and <i>arrows</i> always override the selected value;</li>
-				<li>All <i>operators</i> will be inserted before the selected value, and has brackets to enclose it;</li>
-				<li>If the <i>structure</i> has an "x" or "xyz", that's where the selected text will be inserted;</li>
-				<li>If the <i>structure</i> is a huge operator (e.g. \(\sum_a^b\)), or the limit \(\lim_{a\to b}\) in
-					specific, the operator will be inserted in front of the selected text like how an <i>operator</i>
-					would, except without brackets;</li>
-				<li>All <i>fonts</i> will be applied to the selected value; if there's none, the dummy text is added.</li>
-			</ul>
-			<p>Directly below them are the font size control and color control. Type in the desired font size
-				(>10), and it will be applied to the output text. Unfortunately, if the output is updated, the
-				size is restored and you'll have to re-enter the size value. The color chooser works like the
-				<i>fonts</i>: you click on the color box and choose a color first, then select a range of text
-				and have the color be applied to that specific place.</p>
-			<p>In the very center is the input box. You type in something, and the typesetted formula will be
-				displayed below it, or occasionally, an exapserated error message instead. Very neat.</p>
-			<p>To the right is the <i>history panel</i>, which currently only supports static equations.</p>
-			<p>When you have finished working on a long equation, you may want to save it somewhere; simply press
-				the "push current formula" button, and your equation will be added to the list. The name you entered
-				can be seen when you hover your cursor over the formula. Next time you want to use it, click on it
-				and it will be written in the input box. (And overriding the preexisting content. If you want to keep
-				your work in progress, make sure you've saved that beforehand! ) Deletion currently is not so neat:
-				don't panic when something else disappears instead of what you intended -- that's a MathJax update
-				problem. Reload the page, and everything will be fine.</p>
-		</div>
-	</div>
 	<div id="toolbar">
 		<div id="tabs">
 			<ul>
@@ -148,10 +106,10 @@
 		<div id="historypanel">
 			<div id="topbar">
 				<ul id="icons">
-					<li id="L1"><a href="#"><img src="Icons/Icon_1.svg" width="25px" onclick="toFront(1)" /></a></li>
-					<li id="L2"><a href="#"><img src="Icons/Icon_2.svg" width="25px" onclick="toFront(2)" /></a></li>
-					<li id="L3"><a href="#"><img src="Icons/Icon_3.svg" width="25px" onclick="toFront(3)" /></a></li>
-					<li id="L4"><a href="#"><img src="Icons/Icon_4.svg" width="25px" onclick="toFront(4)" /></a></li>
+					<li id="L1" v-on:click="toFront(1)"><img src="Icons/Icon_1.svg" width="25px" /></li>
+					<li id="L2" v-on:click="toFront(2)"><img src="Icons/Icon_2.svg" width="25px" /></li>
+					<li id="L3" v-on:click="toFront(3)"><img src="Icons/Icon_3.svg" width="25px" /></li>
+					<li id="L4" v-on:click="toFront(4)"><img src="Icons/Icon_4.svg" width="25px" /></li>
 				</ul>
 			</div>
 			<div id="menu1" class="menu">
@@ -161,10 +119,18 @@
 					<p v-on:click="importformula(index)" v-bind:title="formula.name">$${{formula.formula}}$$</p>
 				</li>
 			</transition-group>
-			<button id="pushBtn" v-on:click="pushformula()">Push current formula</button>
+			<button id="pushBtn" class="addBtn" v-on:click="pushformula()">Push current formula</button>
 			</div>
 			<div id="menu2" class="menu">
-				<br>Menu 2 still under construction
+				<br>
+				<table id="catalog">
+					<tr><td><b>Written as</b></td><td><b>Parsed as</b></td></tr>
+					<tr v-for="shortcut in shortcuts">
+						<td><code>{{shortcut.short}}</code></td>
+						<td><code>{{shortcut.cut}}</code></td>
+					</tr>
+				</table>
+				<button class="addBtn" onclick="showDialog('AddSC')">Add new shortcut</button>
 			</div>
 			<div id="menu3" class="menu">
 				<br>The saying goes: 
@@ -181,8 +147,24 @@
 		<div id="Nameinput" class="dialog">
 			<p>Please enter a name for this formula: </p>
 			<input id="formulaname" placeholder="Name"></input>
-			<br><button id="cancel" v-on:click="giveup()">Cancel</button>
-			<button id="confirm" v-on:click="proceed()">Confirm</button>
+			<br><button class="cancel" v-on:click="proceedSaving(false)">Cancel</button>
+			<button class="confirm" v-on:click="proceedSaving(true)">Confirm</button>
+		</div>
+		<div id="AddSC" class="dialog">
+			<label for="short">\</label><input id="short" placeholder="The shorthand"></input>
+			<br><label for="cut">\</label><input id="cut" placeholder="What it stands for"></input>
+			<br><button class="cancel" v-on:click="proceedAddingSC(false)">Cancel</button>
+			<button class="confirm" v-on:click="proceedAddingSC(true)">Confirm</button>
+		</div>
+		<div id="Helppanel" class="dialog">
+			<h1>Help</h1>
+			<p>Stuck? Don't know how to implement what you have in mind? Here are some sources you may find useful: </p>
+			<a href="https://tex.stackexchange.com" target="_blank">The TeX Stack Exchange</a>
+			<br><a href="https://docs.mathjax.org/en/latest/input/tex/index.html" target="_blank">About MathJax</a>
+			<p>This is a webpage designed for real-time <b><i>formula</i></b> (be ware: this is NOT for entire LaTeX documents)
+				edition. It uses MathJax to render the formula, whose syntax is very much akin to that of LaTeX, except 
+				having much fewer symbols and environments. See the links above for more detailed information about both.</p>
+			<br><button class="confirm" onclick="hideDialog('Helppanel')">Confirm</button>
 		</div>
 	</div>
 	<script type="text/javascript" src="LaTeX editor.js"></script>

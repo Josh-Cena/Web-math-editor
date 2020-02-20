@@ -1,8 +1,9 @@
 var input = document.getElementById("input");
 var renderinput = function(){
+	rawText = vm2.parseRawtext(input.value);
 	MathJax.Hub.Queue(function(){
 		var math = MathJax.Hub.getAllJax("output")[0];
-		MathJax.Hub.Queue(["Text", math, input.value]);
+		MathJax.Hub.Queue(["Text", math, rawText]);
 	});
 };
 function showbox(num){
@@ -10,14 +11,6 @@ function showbox(num){
 }
 function hidebox(num){
 	document.getElementById("Panel" + num).style.display = "none";
-}
-function toFront(num){
-	for(var i = 1;i < 5;i++){
-		document.getElementById("L" + i).style.height = "29px";
-		document.getElementById("menu" + i).style.display = "none";
-	}
-	document.getElementById("L" + num).style.height = "33px";
-	document.getElementById("menu" + num).style.display = "block";
 }
 function insertSymb(text){
 	if (input.selectionStart || input.selectionStart == '0') {
@@ -32,17 +25,15 @@ function insertSymb(text){
 			if(startPos != endPos){
 				input.value = before + text.left + selected + text.right + after;
 				input.selectionStart = startPos + text.left.length + selected.length + text.right.length;
-				input.selectionEnd = input.selectionStart;
 			}else{
 				input.value = before + text.disp + after;
 				input.selectionStart = startPos + text.disp.length;
-				input.selectionEnd = input.selectionStart;
 			}
 		}else{
 			input.value = before + text + after;
 			input.selectionStart = startPos + text.length;
-			input.selectionEnd = input.selectionStart;
 		}
+		input.selectionEnd = input.selectionStart;
 		input.focus();
 		if (scrollPos > 0) {
 			input.scrollTop = scrollPos;
@@ -266,7 +257,10 @@ var vm2 = new Vue({
 			{name:"Simultaneous linear equations",
 			 formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
 		],
-		confirmed:false
+		shortcuts:[
+			{short:"\\RR",cut:"\\mathbb{R}"},
+			{short:"\\QQ",cut:"\\mathbb{Q}"}
+		]
 	},
 	computed:{
 		icon:function(){
@@ -274,15 +268,20 @@ var vm2 = new Vue({
 				return "▶";
 			else
 				return "◀";
-		},
-		storage: function(){
-			return localStorage.getItem("webmathdata");
 		}
 	},
 	methods:{
 		importformula:function(index){
 			input.value = this.formulas[index].formula;
 			renderinput();
+		},
+		parseRawtext:function(rawText){
+			for(shortcut of this.shortcuts){
+				var reg = shortcut.short.replace(/\\/g,"\\\\");
+				reg = eval("/" + reg + "/g");
+				rawText = rawText.replace(reg,shortcut.cut);
+			}
+			return rawText;
 		},
 		removeformula:function(index){
 			var r = confirm("Do you really want to delete this formula? \nThis action can NOT be recovered");
@@ -313,30 +312,51 @@ var vm2 = new Vue({
 				expandHistory();
 			this.seen = !this.seen;
 		},
-		giveup:function(){
-			hideDialog('Nameinput');
-			setTimeout(function(){document.getElementById("formulaname").value = "";},300);
-		},
-		proceed:function(){
+		proceedSaving:function(confirm){
 			hideDialog('Nameinput');
 			var fname = document.getElementById("formulaname").value;
-			if (fname != null && fname != "") {
+			if (confirm && fname != null && fname != "") {
 				this.formulas.push({name:fname,formula:input.value});
 				setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,"history"])},100);
-			}else{
-				return;
 			}
 			setTimeout(function(){document.getElementById("formulaname").value = "";},300);
+		},
+		proceedAddingSC:function(confirm){
+			hideDialog('AddSC');
+			var shortBox = document.getElementById("short");
+			var cutBox = document.getElementById("cut");
+			if(confirm){
+				if(shortBox.value == "" || cutBox.value == "")
+					alert("Cannot contain empty element");
+				else{
+					this.shortcuts.push({short:"\\" + shortBox.value,cut:"\\" + cutBox.value});
+				}
+			}
+			setTimeout(function(){shortBox.value = "";cutBox.value = "";},300);
+		},
+		toFront:function(num){
+			for(var i = 1;i < 5;i++){
+				document.getElementById("L" + i).style.height = "29px";
+				document.getElementById("menu" + i).style.display = "none";
+			}
+			document.getElementById("L" + num).style.height = "33px";
+			document.getElementById("menu" + num).style.display = "block";
 		}
 	},
 	created: function(){
 		var history = localStorage.getItem("webmathdata");
 		if(history != null)
 			this.formulas = JSON.parse(history);
+		history = localStorage.getItem("webmathdata2");
+		if(history != null)
+			this.shortcuts = JSON.parse(history);
 	},
 	watch:{
-		formulas(newVal,oldVal){
+		formulas(newVal){
 			localStorage.setItem("webmathdata", JSON.stringify(newVal));
+		},
+		shortcuts(newVal){
+			localStorage.setItem("webmathdata2", JSON.stringify(newVal));
 		},
 		fontsize(newVal){
 			if(newVal >= 10){

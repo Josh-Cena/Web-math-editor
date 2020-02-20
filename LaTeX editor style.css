@@ -6,6 +6,7 @@ body {
 }
 header {
     height: 50px;
+	width:100%;
     background-color: #3DA4E3;
     color: white;
 	text-align: center;
@@ -30,110 +31,9 @@ header {
 	top:5px;
 	cursor: pointer;
 }
-.overlay{
-	display: none;
-	position: absolute;
-	top: 0%;
-	left: 0%; 
-	width: 100%; 
-	height: 100%; 
-	background-color: rgba(0,0,0,0.4); 
-	z-index:3; 
-	filter: alpha(opacity=50); 
-}
-.dialog{
-	margin:auto;
-	left:0;right:0;top:0;bottom:0;
-	width:650px;
-	position:absolute;
-	background-color: white;
-	visibility:hidden;
-	opacity:0;
-	transition: all 0.3s linear;
-	border: 2px solid steelblue;
-	border-radius: 10px 10px 10px 10px;
-	z-index:4;
-}
-#Helppanel{
-	height:400px;
-}
-#helpText{
-	height:300px;
-	overflow-x: scroll;
-	margin-top:50px;
-}
-#Helppanel p{
-	text-align:justify;
-	margin-left:20px;
-	margin-right:20px;
-	margin-top:25px;
-	margin-bottom:0px;
-	line-height:25px;
-}
-#Helppanel ul{
-	text-align:justify;
-	margin-left:20px;
-	margin-right:40px;
-	margin-top:5px;
-	margin-bottom:5px;
-	line-height:25px;
-}
-#Helppanel a:not(.closeBtn):active{
-	font-style: none;
-	color:black;
-}
-#Helppanel a:not(.closeBtn):visited{
-	font-style: none;
-	color:black;
-}
-#Helppanel a:not(.closeBtn):hover{
-	font-style: none;
-	color:red;
-}
-#Nameinput{
-	Height:170px;
-	text-align: left;
-}
-#Nameinput p{
-	margin-top:30px;
-	margin-left:30px;
-	margin-bottom: 15px;
-	font-size:20px;
-}
-#Nameinput input{
-	margin-left:30px;
-	margin-bottom:25px;
-	width:80%;
-	height:25px;
-	outline: none;
-}
-#cancel{
-	margin-left:460px;
-	width:80px;
-	height:30px;
-	font-size:16px;
-	border: 1px solid lightgrey;
-	border-radius: 3px;
-	background-color: white;
-	cursor: pointer;
-}
-#confirm{
-	margin-left:10px;
-	width:80px;
-	height:30px;
-	font-size:16px;
-	color:white;
-	border: 1px solid steelblue;
-	border-radius: 3px;
-	background-color: steelblue;
-	cursor: pointer;
-}
-.closedialog{
-	z-index:1;
-	right: 14px;
-	top: 10px;
-}
 #toolbar{
+	position:absolute;
+	top:50px;
 	width:90px;
 }
 #tabs{
@@ -181,30 +81,14 @@ header {
 	border-radius:7px 7px 7px 7px;
 	box-shadow: 10px 10px 10px 5px rgba(204,204,204,0.3);
 }
-table {
-	table-layout:fixed;
-}
-table tr{
-	height: 30px;
-}
-table td{
-	width: 20px;
-}
-#optab td{
-	width: 40px;
-}
-#structtab td{
-	width: 40px;
-}
-#fonttab td{
-	width: 120px;
-}
-#stytab td{
-	width:160px;
-}
-#fontsetting{
-	margin-top:150px;
-}
+table {table-layout:fixed;}
+table tr{		height: 30px;}
+table td{		width: 20px;}
+#optab td{		width: 40px;}
+#structtab td{	width: 40px;}
+#fonttab td{	width: 120px;}
+#stytab td{		width:160px;}
+#fontsetting{margin-top:150px;}
 #fontsetting>input[type="color"]{
 	margin-top:40px;
 	margin-left:3px;
@@ -276,12 +160,13 @@ table td{
 	border-left:2px solid steelblue;
 	border-right:2px solid steelblue;
 	border-top:2px solid steelblue;
+	cursor: pointer;
 }
 #L1{height:33px;}
 #L2{height:29px;}
 #L3{height:29px;}
 #L4{height:29px;}
-#icons li a{
+#icons li img{
 	position:relative;
 	top:2px;
 }
@@ -321,7 +206,7 @@ table td{
 #hislist li a{
 	right: 4px;
 }
-#pushBtn{
+.addBtn{
 	width: 250px;
 	height: 40px;
 	margin-top: 20px;
@@ -349,8 +234,114 @@ table td{
 	transition: right 0.5s;
 }
 #menu2{display:none;}
+#catalog{
+	margin-left: 20px;
+}
+#catalog tr td{
+	width:150px;
+}
 #menu3{display:none;}
 #menu4{display:none;}
+.overlay{
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%; 
+	width: 100%; 
+	height: 100%; 
+	background-color: rgba(0,0,0,0.4); 
+	z-index:3; 
+	filter: alpha(opacity=50); 
+}
+.dialog{
+	margin:auto;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	position:absolute;
+	width:650px;
+	background-color: white;
+	visibility:hidden;
+	opacity:0;
+	transition: all 0.3s linear;
+	border: 2px solid steelblue;
+	border-radius: 10px 10px 10px 10px;
+	z-index:4;
+	text-align:left;
+}
+#Helppanel{
+	text-align: center;
+}
+#Helppanel p{
+	text-align:justify;
+	margin-left:20px;
+	margin-right:20px;
+	margin-top:25px;
+	margin-bottom:0px;
+	line-height:25px;
+}
+#Helppanel a:not(.closeBtn):active{
+	font-style: none;
+	color:black;
+}
+#Helppanel a:not(.closeBtn):visited{
+	font-style: none;
+	color:black;
+}
+#Helppanel a:not(.closeBtn):hover{
+	font-style: none;
+	color:red;
+}
+#Nameinput p{
+	margin-top:30px;
+	margin-left:30px;
+	margin-bottom: 15px;
+	font-size:20px;
+}
+#Nameinput input{
+	margin-left:30px;
+	margin-bottom:25px;
+	width:80%;
+	height:25px;
+	outline: none;
+}
+#AddSC label{
+	margin-left:30px;
+	font-size:20px;
+}
+#AddSC input{
+	margin-left:5px;
+	margin-top:20px;
+	margin-bottom:10px;
+	width:70%;
+	height:25px;
+	outline: none;
+}
+.cancel{
+	margin-left:460px;
+	margin-bottom:20px;
+	width:80px;
+	height:30px;
+	font-size:16px;
+	border: 1px solid lightgrey;
+	border-radius: 3px;
+	background-color: white;
+	cursor: pointer;
+}
+.confirm{
+	float:right;
+	margin-left:10px;
+	margin-right:20px;
+	margin-bottom:20px;
+	width:80px;
+	height:30px;
+	font-size:16px;
+	color:white;
+	border: 1px solid steelblue;
+	border-radius: 3px;
+	background-color: steelblue;
+	cursor: pointer;
+}
 .MathJax {
 	outline: 0;
 }
