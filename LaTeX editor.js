@@ -267,7 +267,7 @@ var vm2 = new Vue({
 		parseRawtext:function(rawText){
 			for(shortcut of this.shortcuts){
 				var reg = shortcut.short.replace(/\\/g,"\\\\");
-				reg = eval("/" + reg + "([^a-zA-Z]|$)/g");
+				reg = eval("/" + reg + "(?![a-zA-Z])/g");
 				rawText = rawText.replace(reg,shortcut.cut);
 			}
 			return rawText;
