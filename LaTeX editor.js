@@ -265,6 +265,7 @@ var vm2 = new Vue({
 			renderinput();
 		},
 		parseRawtext:function(rawText){
+			rawText = rawText.replace(/\\\\/g,"\\\\ ");
 			for(shortcut of this.shortcuts){
 				var reg = shortcut.short.replace(/\\/g,"\\\\");
 				reg = eval("/" + reg + "(?![a-zA-Z])/g");
@@ -326,6 +327,9 @@ var vm2 = new Vue({
 			}
 			document.getElementById("L" + num).style.height = "33px";
 			document.getElementById("menu" + num).style.display = "block";
+		},
+		removeSC:function(index){
+			this.shortcuts.splice(index,1);
 		}
 	},
 	created: function(){
