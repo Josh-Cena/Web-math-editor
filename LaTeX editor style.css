@@ -353,15 +353,20 @@ table td{		width: 20px;}
 #AddSC input{
 	margin-top:20px;
 	margin-bottom:10px;
-	width:70%;
 	height:25px;
 	outline: none;
 }
 #short{
 	margin-left:5px;
+	width:60%;
 }
 #cut{
 	margin-left:40px;
+	width:80%;
+}
+#param{
+	margin-left:10px;
+	width:16.7%;
 }
 .cancel{
 	margin-left:460px;

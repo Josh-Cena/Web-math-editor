@@ -243,8 +243,8 @@ var vm2 = new Vue({
 			 formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
 		],
 		shortcuts:[
-			{short:"\\RR",cut:"\\mathbb{R}"},
-			{short:"\\QQ",cut:"\\mathbb{Q}"}
+			{short:"\\RR",cut:"\\mathbb{R}",parameter:0},
+			{short:"\\QQ",cut:"\\mathbb{Q}",parameter:0}
 		]
 	},
 	computed:{
@@ -264,9 +264,8 @@ var vm2 = new Vue({
 			// 	reg = eval("/" + reg + "(?![a-zA-Z])/g");
 			// 	rawText = rawText.replace(reg,shortcut.cut);
 			// }
-			for(shortcut of this.shortcuts){
-				rawText = "\\newcommand{" + shortcut.short + "}{" + shortcut.cut + "}" + rawText;
-			}
+			for(shortcut of this.shortcuts)
+				rawText = "\\newcommand{" + shortcut.short + "}[" + shortcut.parameter + "]{" + shortcut.cut + "}" + rawText;
 			return rawText;
 		},
 		removeformula:function(index){
@@ -308,13 +307,14 @@ var vm2 = new Vue({
 			showDialog('AddSC',false);
 			var shortBox = document.getElementById("short");
 			var cutBox = document.getElementById("cut");
+			var paramBox = document.getElementById("param");
 			if(confirm){
-				if(shortBox.value == "" || cutBox.value == "")
+				if(shortBox.value == "" || cutBox.value == "" || paramBox == "")
 					alert("Cannot contain empty element");
 				else
-					this.shortcuts.push({short:"\\" + shortBox.value,cut:cutBox.value});
+					this.shortcuts.push({short:"\\" + shortBox.value, cut:cutBox.value, parameter:paramBox.value});
 			}
-			setTimeout(function(){shortBox.value = "";cutBox.value = "";},300);
+			setTimeout(function(){shortBox.value = "";cutBox.value = "";paramBox.value = "";},300);
 		},
 		toFront:function(num){
 			for(var i = 1;i < 5;i++){

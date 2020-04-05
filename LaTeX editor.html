@@ -152,13 +152,14 @@
 		</div>
 		<div id="Nameinput" class="dialog">
 			<p>Please enter a name for this formula: </p>
-			<input id="formulaname" placeholder="Name"></input>
+			<input id="formulaname" placeholder="Name"/>
 			<br><button class="cancel" v-on:click="proceedSaving(false)">Cancel</button>
 			<button class="confirm" v-on:click="proceedSaving(true)">Confirm</button>
 		</div>
 		<div id="AddSC" class="dialog">
-			<label for="short">\</label><input id="short" placeholder="The shorthand"></input>
-			<br><input id="cut" placeholder="What it stands for"></input>
+			<label for="short">\</label><input id="short" placeholder="The shorthand"/>
+			<input type="number" step="1" min="0" max="100" id="param" placeholder="# of parameters"/>
+			<br><input id="cut" placeholder="What it stands for"/>
 			<br><button class="cancel" v-on:click="proceedAddingSC(false)">Cancel</button>
 			<button class="confirm" v-on:click="proceedAddingSC(true)">Confirm</button>
 		</div>
