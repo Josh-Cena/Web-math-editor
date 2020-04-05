@@ -64,34 +64,27 @@ var vm = new Vue({
 	el:"#toolbar",
 	data:{
 		symbols:[
-			["\\alpha ","\\beta ","\\gamma ","\\delta ","\\epsilon ",
-			 "\\zeta ","\\eta ","\\theta ","\\iota ","\\kappa ",
-			 "\\lambda ","\\mu ","\\nu ","\\xi ","\\pi ",
-			 "\\rho ","\\sigma ","\\tau "],
-			["\\upsilon ","\\phi ","\\chi ","\\psi ","\\omega ",
-			 "\\Gamma ","\\Delta ","\\Theta ","\\Lambda ","\\Xi ",
-			 "\\Pi ","\\Sigma ","\\Upsilon","\\Phi ","\\Psi ",
-			 "\\Omega ","\\varepsilon ","\\vartheta "],
-			["\\varpi ","\\varrho ","\\varsigma ","\\varphi ","\\aleph ",
-			 "\\hbar ","\\imath ","\\jmath ","\\ell ","\\wp ",
-			 "\\Re ","\\Im ","\\mathrm{d}","\\partial ","\\infty ",
-			 "\\emptyset ","\\nabla ","\\top "],
-			["\\bot ","\\angle ","\\forall ","\\exists ","\\neg ",
-			 "\\flat ","\\natural ","\\sharp ","\\S ","\\triangleleft ",
-			 "\\triangleright ","\\bigtriangleup ","\\bigtriangledown ","\\wedge ","\\vee ",
-			 "\\cap ","\\cup ","\\sqcap "],
-			["\\sqcup ","\\uplus ","\\amalg ","\\dagger ","\\ddagger ",
-			 "\\diamond ","\\bullet ","\\wr ","\\div ","\\times ",
-			 "\\cdot ","\\odot ","\\oslash ","\\otimes ","\\oplus ",
-			 "\\pm ","\\mp ","\\circ "],
-			["\\star ","\\ne ","\\le ","\\ge ","\\ll ",
-			 "\\gg ","\\prec ","\\succ ","\\preceq ","\\succeq ",
-			 "\\sim ","\\approx ","\\simeq ","\\cong ","\\equiv ",
-			 "\\doteq ","\\in ","\\notin "],
-			["\\owns ","\\subset ","\\supset ","\\subseteq ","\\supseteq ",
-			 "\\smile ","\\frown ","\\models ","\\mid ","\\parallel ",
-			 "\\vdash ","\\dashv ","\\propto ","\\asymp ","\\bowtie",
-			 "\\mathbb{A}","\\mathcal{A}","\\mathfrak{A}"],
+			["\\alpha ","\\beta ","\\gamma ","\\delta ","\\epsilon ","\\zeta ",
+			 "\\eta ","\\theta ","\\iota ","\\kappa ","\\lambda ","\\mu ",
+			 "\\nu ","\\xi ","\\pi ","\\rho ","\\sigma ","\\tau "],
+			["\\upsilon ","\\phi ","\\chi ","\\psi ","\\omega ","\\Gamma ",
+			 "\\Delta ","\\Theta ","\\Lambda ","\\Xi ","\\Pi ","\\Sigma ",
+			 "\\Upsilon","\\Phi ","\\Psi ","\\Omega ","\\varepsilon ","\\vartheta "],
+			["\\varpi ","\\varrho ","\\varsigma ","\\varphi ","\\aleph ","\\hbar ",
+			 "\\imath ","\\jmath ","\\ell ","\\wp ","\\Re ","\\Im ",
+			 "\\mathrm{d}","\\partial ","\\infty ","\\emptyset ","\\nabla ","\\top "],
+			["\\bot ","\\angle ","\\forall ","\\exists ","\\neg ","\\flat ",
+			 "\\natural ","\\sharp ","\\S ","\\triangleleft ","\\triangleright ","\\bigtriangleup ",
+			 "\\bigtriangledown ","\\wedge ","\\vee ","\\cap ","\\cup ","\\sqcap "],
+			["\\sqcup ","\\uplus ","\\amalg ","\\dagger ","\\ddagger ","\\diamond ",
+			 "\\bullet ","\\wr ","\\div ","\\times ","\\cdot ","\\odot ",
+			 "\\oslash ","\\otimes ","\\oplus ","\\pm ","\\mp ","\\circ "],
+			["\\star ","\\ne ","\\le ","\\ge ","\\ll ","\\gg ",
+			 "\\prec ","\\succ ","\\preceq ","\\succeq ","\\sim ","\\approx ",
+			 "\\simeq ","\\cong ","\\equiv ","\\doteq ","\\in ","\\notin "],
+			["\\owns ","\\subset ","\\supset ","\\subseteq ","\\supseteq ","\\smile ",
+			 "\\frown ","\\models ","\\mid ","\\parallel ","\\vdash ","\\dashv ",
+			 "\\propto ","\\asymp ","\\bowtie","\\mathbb{A}","\\mathcal{A}","\\mathfrak{A}"],
 			["\\cdots ","\\vdots ","\\ddots "]
 		],
 		operators:[
@@ -224,7 +217,7 @@ var vm = new Vue({
 	},
 	methods:{
 		add:function(charset,row,col){
-			hidebox(charset);
+			showbox(charset,false);
 			switch(charset){
 				case 1: insertSymb(this.symbols[row][col]);break;
 				case 2: insertSymb(this.operators[row][col]);break;

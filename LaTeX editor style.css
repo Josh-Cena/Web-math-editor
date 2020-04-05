@@ -153,8 +153,8 @@ table td{		width: 20px;}
 #icons li{
 	float:left;
 	position:relative;
-	width:50px;
-	margin-right:10px;
+	width:62px;
+	margin-right:-2px;
 	background-color: #EEEEEE;
 	border-radius: 4px 4px 0px 0px;
 	border-left:2px solid steelblue;
@@ -242,7 +242,7 @@ table td{		width: 20px;}
 #catalog tr:nth-child(odd){
 	background: rgba(70,130,180,0.3);
 }
-#catalog tr:nth-child(1){
+#catalog th{
 	background: rgba(70,130,180,0.7);
 }
 #catalog tr td{
