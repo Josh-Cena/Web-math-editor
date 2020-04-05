@@ -12,4 +12,5 @@ A webpage real-time formula editor powered by MathJax
 - Improve: 
     - Animated help;
     - Dynamic dialog boxes;
-    - Use `JSON` to separate data from model
+    - Use `JSON` to separate data from model;
+    - Better support for using parameters in macros;
