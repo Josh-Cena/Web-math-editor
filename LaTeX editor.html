@@ -148,6 +148,12 @@
 				<label for="sizebox">Font size:</label>
 				<input id="sizebox" v-model="fontsize">
 				<label for="sizebox">pt</label>
+				<br><br>
+				<label for="bkgcolor">Math background color:</label>
+				<select id="bkgcolor" onchange="switchcolor(this.value)">
+					<option value="Transparent">Transparent</option>
+					<option value="White">White</option>
+				</select>
 			</div>
 		</div>
 		<div id="Nameinput" class="dialog">

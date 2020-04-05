@@ -60,6 +60,12 @@ function showDialog(name,show){
 	document.getElementsByClassName("overlay")[0].style.display = show ? "block" : "none";
 	document.getElementById(name).style.opacity = show ? 1 : 0;
 }
+function switchcolor(newVal){
+	if(newVal == "White")
+		document.getElementById("output").style.backgroundColor = "#ffffff";
+	else
+		document.getElementById("output").style.backgroundColor = "rgba(0,0,0,0)";
+}
 var vm = new Vue({
 	el:"#toolbar",
 	data:{
