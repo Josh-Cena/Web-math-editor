@@ -258,11 +258,14 @@ var vm2 = new Vue({
 			renderinput();
 		},
 		parseRawtext:function(rawText){
-			rawText = rawText.replace(/\\\\/g,"\\\\ ");
+			// rawText = rawText.replace(/\\\\/g,"\\\\ ");
+			// for(shortcut of this.shortcuts){
+			// 	var reg = shortcut.short.replace(/\\/g,"\\\\");
+			// 	reg = eval("/" + reg + "(?![a-zA-Z])/g");
+			// 	rawText = rawText.replace(reg,shortcut.cut);
+			// }
 			for(shortcut of this.shortcuts){
-				var reg = shortcut.short.replace(/\\/g,"\\\\");
-				reg = eval("/" + reg + "(?![a-zA-Z])/g");
-				rawText = rawText.replace(reg,shortcut.cut);
+				rawText = "\\newcommand{" + shortcut.short + "}{" + shortcut.cut + "}" + rawText;
 			}
 			return rawText;
 		},
