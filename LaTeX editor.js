@@ -249,8 +249,9 @@ var vm2 = new Vue({
 			 formula:"\\begin{cases}a_1x+a_2y=a_3\\\\b_1x+b_2y=b_3\\end{cases}"}
 		],
 		shortcuts:[
-			{short:"\\RR",cut:"\\mathbb{R}",parameter:0},
-			{short:"\\QQ",cut:"\\mathbb{Q}",parameter:0}
+			{short:"\\RR", cut:"\\mathbb{R}", parameter:0, disp:"\\RR"},
+			{short:"\\QQ", cut:"\\mathbb{Q}", parameter:0, disp:"\\QQ"},
+			{short:"\\add", cut:"#1+#2", parameter:2, disp:"\\add{#1}{#2}"},
 		]
 	},
 	computed:{
@@ -317,8 +318,12 @@ var vm2 = new Vue({
 			if(confirm){
 				if(shortBox.value == "" || cutBox.value == "" || paramBox == "")
 					alert("Cannot contain empty element");
-				else
-					this.shortcuts.push({short:"\\" + shortBox.value, cut:cutBox.value, parameter:paramBox.value});
+				else{
+					var display = "\\" + shortBox.value;
+					for(var i = 1; i <= paramBox.value; i++)
+						display += "{#" + i + "}";
+					this.shortcuts.push({short:"\\" + shortBox.value, cut:cutBox.value, parameter:paramBox.value, disp:display});
+				}
 			}
 			setTimeout(function(){shortBox.value = "";cutBox.value = "";paramBox.value = "";},300);
 		},

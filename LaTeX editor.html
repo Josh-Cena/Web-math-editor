@@ -125,7 +125,7 @@
 				<table id="catalog">
 					<tr><th>Written as</th><th>Parsed as</th></tr>
 					<tr v-for="(shortcut,index) in shortcuts">
-						<td><code>{{shortcut.short}}</code></td>
+						<td><code>{{shortcut.disp}}</code></td>
 						<td><code>{{shortcut.cut}}</code></td>
 						<td><img src="Icons/Delete.svg" width="20px" v-on:click="removeSC(index)" /></td>
 					</tr>
